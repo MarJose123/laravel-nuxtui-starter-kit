@@ -14,16 +14,22 @@
         "php": "^8.4",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "ext-curl": "*"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.7",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "pestphp/pest": "^4.1",
+        "pestphp/pest-plugin-browser": "^4.1",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "rector/rector": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -55,12 +61,59 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+            "npx concurrently \"composer mailpit\" \"php artisan queue:listen --tries=1\" \"php artisan schedule:work\" \"npm run dev\" --names=mailserver,queue,scheduler,vite --kill-others  -c auto"
         ],
+        "dev:ssr": [
+            "npm run build:ssr",
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
+        ],
+        "format:be": [
+            "vendor/bin/pint"
+        ],
+        "format:fe": [
+            "npm run format",
+            "npm run lint"
+        ],
+        "format": [
+            "@format:be",
+            "@format:fe"
+        ],
+        "mailpit": [
+            "Composer\\Config::disableProcessTimeout",
+            ".bin/mailpit.exe --smtp-auth-accept-any --smtp-auth-allow-insecure --use-message-dates --tags-username"
+        ],
+        "mailpit:update": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php .bin/updater.php"
+        ],
+        "rector": [
+            "vendor/bin/rector process --ansi"
+        ],
+        "rector:check": [
+            "vendor/bin/rector process --dry-run --ansi"
+        ],
+        "analyse": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpstan analyse --memory-limit=2G --ansi"
+        ],
+
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ]
+    },
+    "scripts-descriptions": {
+        "dev": "Run the development server",
+        "dev:ssr": "Run the development server with SSR",
+        "test": "Run the tests",
+        "format:be": "Fixing the Code Style according to PER standards for the backend code",
+        "format:fe": "Fixing the Code Style according to PER standards for the frontend code",
+        "format": "Fixing the Code Style according to PER standards for both backend and frontend code",
+        "mailpit": "Run the mailpit server for testing emails",
+        "rector": "Fixing the code according to the Rector Rules",
+        "rector:check": "Showing the suggested changes from Rector",
+        "analyse": "Analyse the code with PHPStan code analysis"
     },
     "extra": {
         "laravel": {

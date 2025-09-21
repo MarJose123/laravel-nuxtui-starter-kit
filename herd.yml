@@ -1,0 +1,9 @@
+name: starter-kit
+php: '8.4'
+secured: false
+aliases:
+    - starter.test
+    - starter-kit.test
+services: {  }
+integrations:
+    forge: {  }
