@@ -29,7 +29,7 @@ export default defineConfig({
             },
             ui: {
                 colors: {
-                    primary: 'scarlet',
+                    primary: 'green',
                     neutral: 'neutral',
                 },
             },
@@ -41,6 +41,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
+            'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
         },
     },
 });

@@ -21,6 +21,7 @@
                         variant="ghost"
                         size="sm"
                         class="hidden sm:inline-flex"
+                        @click="router.visit(route('login'))"
                     >
                         Login
                     </UButton>
@@ -418,6 +419,7 @@
 </template>
 
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3'
 </script>
 
 <style scoped>

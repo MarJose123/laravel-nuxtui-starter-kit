@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Actions\Auth\LoginUser;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+class LoginController extends Controller
+{
+    public function __construct(private readonly LoginUser $loginUser) {}
+
+    /**
+     * Show the application's login form.
+     */
+    public function create(Request $request)
+    {
+        return Inertia::render('auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
+            'canSignUp'        => Route::has('signup'),
+            'status'           => $request->session()->get('notification'),
+        ]);
+    }
+
+    public function store(LoginRequest $request)
+    {
+        $user = $this->loginUser->handle($request);
+
+        Auth::login($user, $request->boolean('remember'));
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard', absolute: false));
+
+    }
+}

@@ -1,5 +1,5 @@
-import {User} from "@/types/User";
+import { user } from '@/types/user'
 
 export interface Auth {
-    user: User | null
+    user: user | null
 }
