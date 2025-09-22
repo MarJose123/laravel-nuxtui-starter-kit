@@ -57,7 +57,7 @@ function onSubmit(payload: FormSubmitEvent<any>) {
 
 <template>
     <div
-        class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-16"
+        class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-36"
     >
         <UAuthForm
             class="max-w-md"
