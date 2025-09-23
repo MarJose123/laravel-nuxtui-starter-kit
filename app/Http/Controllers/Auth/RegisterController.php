@@ -11,9 +11,7 @@ use Inertia\Inertia;
 
 class RegisterController extends Controller
 {
-    public function __construct(private readonly CreateUser $createUser)
-    {
-    }
+    public function __construct(private readonly CreateUser $createUser) {}
 
     public function create(Request $request)
     {

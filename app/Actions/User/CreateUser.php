@@ -16,7 +16,7 @@ class CreateUser
         return DB::transaction(function () use ($attributes) {
             $user = User::create([
                 ...$attributes,
-                'password' => (Hash::make($attributes['password']))
+                'password' => (Hash::make($attributes['password'])),
             ]);
 
             // you can add more logic here, like adding roles, etc.

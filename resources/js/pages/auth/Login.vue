@@ -47,8 +47,7 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     router.post(route('login.store'), payload?.data, {
         onError: (errors) => {
             for (const errorsKey in errors) {
-                fields[fields.findIndex((e) => e.name === errorsKey)].error =
-                    errors[errorsKey]
+                fields[fields.findIndex((e) => e.name === errorsKey)].error = errors[errorsKey]
             }
         },
     })
@@ -56,9 +55,7 @@ function onSubmit(payload: FormSubmitEvent<any>) {
 </script>
 
 <template>
-    <div
-        class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-36"
-    >
+    <div class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-36">
         <UAuthForm
             class="max-w-md"
             title="Login"
@@ -73,9 +70,7 @@ function onSubmit(payload: FormSubmitEvent<any>) {
                 <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
             </template>
             <template #password-hint v-if="props.canResetPassword">
-                <ULink to="#" target="_self" class="font-medium text-primary" tabindex="-1"
-                    >Forgot password?</ULink
-                >
+                <ULink to="#" target="_self" class="font-medium text-primary" tabindex="-1">Forgot password?</ULink>
             </template>
         </UAuthForm>
     </div>
