@@ -29,10 +29,10 @@
                         variant="ghost"
                         size="sm"
                         class="hidden sm:inline-flex"
+                        @click="router.visit(route('register'))"
                     >
                         Register
                     </UButton>
-                    <UButton variant="solid" size="sm"> Get Started </UButton>
                 </div>
             </template>
         </UHeader>

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\SignUpController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::middleware('guest')->group(function () {
 
@@ -12,10 +12,10 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [LoginController::class, 'store'])
         ->name('login.store');
 
-    Route::get('signup', [SignUpController::class, 'create'])
-        ->name('signup');
-    Route::post('signup', [SignUpController::class, 'store'])
-        ->name('signup.store');
+    Route::get('register', [RegisterController::class, 'create'])
+        ->name('register');
+    Route::post('register', [RegisterController::class, 'store'])
+        ->name('register.store');
 
 });
 

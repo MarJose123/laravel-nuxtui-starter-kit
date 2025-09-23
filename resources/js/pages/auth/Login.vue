@@ -8,7 +8,7 @@ defineOptions({ layout: Layout })
 
 const props = defineProps<{
     canResetPassword: boolean
-    canSignUp: boolean
+    canRegister: boolean
 }>()
 
 const fields = reactive([
@@ -68,12 +68,12 @@ function onSubmit(payload: FormSubmitEvent<any>) {
             :submit="{ label: 'Login' }"
             @submit="onSubmit"
         >
-            <template #footer v-if="props.canSignUp">
+            <template #footer v-if="props.canRegister">
                 Don't have an account?
-                <ULink to="#" class="font-medium text-primary">Sign up</ULink>.
+                <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
             </template>
             <template #password-hint v-if="props.canResetPassword">
-                <ULink to="#" class="font-medium text-primary" tabindex="-1"
+                <ULink to="#" target="_self" class="font-medium text-primary" tabindex="-1"
                     >Forgot password?</ULink
                 >
             </template>
