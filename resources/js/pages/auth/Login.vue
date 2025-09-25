@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import Layout from '@/layouts/auth.vue'
+import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
 import type { FormSubmitEvent } from '@nuxt/ui'
-import {Notification} from "@/types/notification";
-import {onMounted, reactive, watch} from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 
 defineOptions({ layout: Layout })
 
 const props = defineProps<{
-    canResetPassword: boolean,
-    canRegister: boolean,
-    notification: Notification | null,
+    canResetPassword: boolean
+    canRegister: boolean
+    notification: Notification | null
 }>()
 
 const toast = useToast()
@@ -57,23 +57,30 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     })
 }
 
-watch(() => props.notification, (notification) => {
-    console.log('Notification', notification)
-    if(notification) {
-        toast.add({
-            title: notification.title ?? notification.type === 'success' ? 'Success' : 'Opps! Something went wrong',
-            description: notification.message,
-            color: notification.type === 'success' ? 'success' : 'error',
-            icon: notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
-            duration: 5000,
-        })
-    }
-})
+watch(
+    () => props.notification,
+    (notification) => {
+        console.log('Notification', notification)
+        if (notification) {
+            toast.add({
+                title:
+                    (notification.title ?? notification.type === 'success') ? 'Success' : 'Opps! Something went wrong',
+                description: notification.message,
+                color: notification.type === 'success' ? 'success' : 'error',
+                icon: notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
+                duration: 5000,
+            })
+        }
+    },
+)
 
 onMounted(() => {
-    if(props.notification) {
+    if (props.notification) {
         toast.add({
-            title: props.notification.title ?? props.notification.type === 'success' ? 'Success' : 'Opps! Something went wrong',
+            title:
+                (props.notification.title ?? props.notification.type === 'success')
+                    ? 'Success'
+                    : 'Opps! Something went wrong',
             description: props.notification.message,
             color: props.notification.type === 'success' ? 'success' : 'error',
             icon: props.notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',

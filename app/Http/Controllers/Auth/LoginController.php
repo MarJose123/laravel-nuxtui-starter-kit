@@ -22,8 +22,8 @@ class LoginController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('auth/Login', [
-            'canResetPassword'   => Route::has('password.request'),
-            'canRegister'        => Route::has('register'),
+            'canResetPassword'         => Route::has('password.request'),
+            'canRegister'              => Route::has('register'),
             'notification'             => $request->session()->get('notification'),
         ]);
     }

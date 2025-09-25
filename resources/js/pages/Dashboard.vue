@@ -1,13 +1,10 @@
 <script setup lang="ts">
-
-import {router} from "@inertiajs/vue3";
+import { router } from '@inertiajs/vue3'
 </script>
 
 <template>
-<span>Dashboard</span>
+    <span>Dashboard</span>
     <UButton @click.prevent="router.post(route('logout'))">Logout</UButton>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
