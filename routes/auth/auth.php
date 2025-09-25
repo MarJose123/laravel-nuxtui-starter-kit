@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Auth\RegisterUserController;
 
 Route::middleware('guest')->group(function () {
 
@@ -12,10 +13,17 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [LoginController::class, 'store'])
         ->name('login.store');
 
-    Route::get('register', [RegisterController::class, 'create'])
+    Route::get('register', [RegisterUserController::class, 'create'])
         ->name('register');
-    Route::post('register', [RegisterController::class, 'store'])
+
+    Route::post('register', [RegisterUserController::class, 'store'])
         ->name('register.store');
+
+    Route::get('forgot-password', [PasswordResetController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('forgot-password', [PasswordResetController::class, 'store'])
+        ->name('password.email');
 
 });
 
