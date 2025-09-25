@@ -62,7 +62,6 @@ const onSubmit = () => {
             </div>
 
             <div class="mt-2 text-center text-sm text-muted">
-                Or,
                 <UButton color="primary" @click.prevent="router.post(route('logout'))" variant="link">Log out</UButton>.
             </div>
         </div>
