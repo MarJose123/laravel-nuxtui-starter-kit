@@ -10,8 +10,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255|min:3',
-            'email'    => 'required|string|email|max:255|unique:users',
+            'name'     => ['required', 'string', 'max:255', 'min:3'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed',
                 Password::min(8)
                     ->letters()
@@ -20,7 +20,7 @@ class RegisterRequest extends FormRequest
                     ->symbols()
                     ->uncompromised(),
             ],
-            'password_confirmation' => 'required',
+            'password_confirmation' => ['required'],
         ];
     }
 

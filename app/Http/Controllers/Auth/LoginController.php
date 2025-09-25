@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Inertia\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LoginController extends Controller
 {
@@ -17,7 +19,7 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      */
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
         return Inertia::render('auth/Login', [
             'canResetPassword'   => Route::has('password.request'),
@@ -26,7 +28,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): RedirectResponse
     {
         $user = $this->loginUser->handle($request);
 

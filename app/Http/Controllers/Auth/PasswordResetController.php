@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PasswordResetController extends Controller
 {
     /**
      * Show the password-reset link request page.
      */
-    public function create(Request $request)
+    public function create(): Response
     {
         return Inertia::render('auth/ForgotPassword');
     }
@@ -29,7 +30,7 @@ class PasswordResetController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => ['required', 'email'],
         ]);
 
         Password::sendResetLink(
