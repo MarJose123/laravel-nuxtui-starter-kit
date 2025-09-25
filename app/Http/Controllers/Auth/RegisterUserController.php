@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Actions\User\CreateUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Services\InertiaNotification;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
-class RegisterController extends Controller
+class RegisterUserController extends Controller
 {
     public function __construct(private readonly CreateUser $createUser) {}
 
-    public function create(Request $request)
+    public function create(): Response
     {
         return Inertia::render('auth/Register');
     }
@@ -23,15 +24,13 @@ class RegisterController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        $this->createUser->handle($request->validated());
+        $user = $this->createUser->handle($request->validated());
 
-        InertiaNotification::make()
-            ->success()
-            ->message('User created successfully.')
-            ->title('Success')
-            ->send();
+        event(new Registered($user));
 
-        return to_route('login');
+        Auth::login($user);
+
+        return to_route('dashboard');
 
     }
 }
