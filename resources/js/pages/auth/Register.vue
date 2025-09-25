@@ -22,7 +22,7 @@ const onSubmit = () => {
     form.clearErrors()
 
     form.post(route('register.store'), {
-        onFinish: () => {
+        onSuccess: () => {
             form.reset()
         },
         onError: () => {
