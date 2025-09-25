@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\Auth\UserEmailVerificationController;
 
 Route::middleware('guest')->group(function (): void {
 
@@ -36,6 +37,18 @@ Route::middleware('guest')->group(function (): void {
 });
 
 Route::middleware('auth')->group(function (): void {
+
+    Route::get('verify-email', [UserEmailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', [UserEmailVerificationController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('email/verification-notification', [UserEmailVerificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
     Route::post('logout', [LogoutController::class, 'destroy'])
         ->name('logout');
 });
