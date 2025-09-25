@@ -26,7 +26,7 @@ const onSubmit = () => {
 
     form.clearErrors()
 
-    form.post(route('register.store'), {
+    form.post(route('password.store'), {
         onSuccess: () => {
             form.reset()
         },
@@ -58,7 +58,7 @@ const onSubmit = () => {
             <div class="flex flex-col gap-y-6">
                 <UForm class="space-y-5" @submit.prevent="onSubmit">
                     <UFormField label="Email" name="email" :error="form.errors.email" required>
-                        <UInput class="w-full" v-model="form.email" placeholder="Enter your email" />
+                        <UInput class="w-full" v-model="form.email" placeholder="Enter your email" disabled />
                     </UFormField>
 
                     <UPasswordInput v-model="form.password" label="Password" :error="form.errors.password" required />

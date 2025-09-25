@@ -5,4 +5,6 @@ use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('Welcome'))->name('home');
 
+Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard')->middleware(['auth', 'verified']);
+
 require __DIR__.'/auth/auth.php';
