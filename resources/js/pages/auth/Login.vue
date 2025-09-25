@@ -55,23 +55,23 @@ function onSubmit(payload: FormSubmitEvent<any>) {
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-36">
-        <UAuthForm
-            class="max-w-md"
-            title="Login"
-            description="Enter your credentials to access your account."
-            icon="i-heroicons-rocket-launch"
-            :fields="fields"
-            :submit="{ label: 'Login' }"
-            @submit="onSubmit"
-        >
-            <template #footer v-if="props.canRegister">
-                Don't have an account?
-                <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
-            </template>
-            <template #password-hint v-if="props.canResetPassword">
-                <ULink to="#" target="_self" class="font-medium text-primary" tabindex="-1">Forgot password?</ULink>
-            </template>
-        </UAuthForm>
-    </div>
+    <UAuthForm
+        class="max-w-md"
+        title="Login"
+        description="Enter your credentials to access your account."
+        icon="i-heroicons-rocket-launch"
+        :fields="fields"
+        :submit="{ label: 'Login' }"
+        @submit="onSubmit"
+    >
+        <template #footer v-if="props.canRegister">
+            Don't have an account?
+            <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
+        </template>
+        <template #password-hint v-if="props.canResetPassword">
+            <ULink :to="route('password.request')" target="_self" class="font-medium text-primary" tabindex="-1"
+                >Forgot password?</ULink
+            >
+        </template>
+    </UAuthForm>
 </template>

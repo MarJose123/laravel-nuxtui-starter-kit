@@ -2,7 +2,7 @@
 import Logo from '@/components/Logo.vue'
 import UPasswordInput from '@/components/ui/UPasswordInput.vue'
 import Layout from '@/layouts/auth.vue'
-import { Head, router, useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 defineOptions({ layout: Layout })
@@ -22,8 +22,8 @@ const onSubmit = () => {
     form.clearErrors()
 
     form.post(route('register.store'), {
-        onSuccess: () => {
-            router.visit(route('login'))
+        onFinish: () => {
+            form.reset()
         },
         onError: () => {
             form.reset('password_confirmation')
@@ -33,7 +33,7 @@ const onSubmit = () => {
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-18">
+    <div>
         <Head title="Register" />
 
         <!-- START: Register Form Root Layout -->

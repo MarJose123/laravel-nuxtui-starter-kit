@@ -4,7 +4,9 @@
     <UApp>
         <UMain>
             <UContainer>
-                <slot />
+                <div class="flex flex-col items-center justify-center gap-4 p-4 pt-2 md:pt-16">
+                    <slot />
+                </div>
             </UContainer>
         </UMain>
     </UApp>
