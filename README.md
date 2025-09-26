@@ -32,25 +32,6 @@ This starter kit is designed to jumpstart your Laravel development with a carefu
 - 🐳 **Laravel Sail** - Docker development environment
 - 📧 **Mailpit** - Email testing tool
 
-## 📦 Development Toolkit
-
-### Code Quality & Analysis
-- 🔍 **Static Analysis** - PHPStan for type checking and bug detection
-- 🎨 **Code Formatting** - Laravel Pint for PHP, Prettier for frontend
-- 📏 **Linting** - ESLint with TypeScript support
-- ♻️ **Refactoring** - Rector for automated code improvements
-
-### Testing Suite
-- 🧪 **Unit Testing** - Pest PHP for elegant testing
-- 🌐 **Browser Testing** - Playwright for E2E testing
-- 🔄 **Laravel Testing** - Built-in Laravel testing features
-
-### Build & Development
-- ⚡ **Vite** - Lightning-fast HMR and building
-- 🔧 **Concurrently** - Run multiple dev processes
-- 🎯 **Vue DevTools** - Enhanced debugging experience
-- 🚀 **SSR Support** - Server-side rendering capabilities
-
 ## ✨ Features / Functionality
 
 ### Core Features
@@ -60,18 +41,6 @@ This starter kit is designed to jumpstart your Laravel development with a carefu
 - ⚡ **SPA Experience** - Seamless navigation with Inertia.js
 - 🔔 **Notifications** - Integrated notification system
 
-### Developer Experience
-- 🔥 **Hot Module Replacement** - Instant feedback during development
-- 📝 **Type Safety** - Full TypeScript support across the stack
-- 🧪 **Comprehensive Testing** - Unit, integration, and E2E testing setup
-- 📊 **Code Analytics** - Built-in static analysis and quality checks
-- 🐳 **Docker Ready** - Laravel Sail for consistent development environment
-
-### Performance & Optimization
-- ⚡ **Fast Loading** - Optimized build process with Vite
-- 📦 **Code Splitting** - Automatic optimization for better performance
-- 🎯 **Tree Shaking** - Eliminate unused code automatically
-- 🗜️ **Asset Optimization** - Compressed and optimized assets
 
 ## 🚀 Installation
 
