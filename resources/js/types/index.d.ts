@@ -1,5 +1,10 @@
-import { user } from '@/types/user'
+import { User } from '@/types/user'
 
 export interface Auth {
-    user: user | null
+    user: User
+}
+
+export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+    name: string
+    auth: Auth
 }
