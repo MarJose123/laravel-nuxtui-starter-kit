@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\InertiaNotification;
 use Exception;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
@@ -38,6 +39,11 @@ class UserEmailVerificationController extends Controller
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false));
         }
+
+        InertiaNotification::make()
+            ->success()
+            ->message('A new verification link has been sent to your email address.')
+            ->send();
 
         $request->user()->sendEmailVerificationNotification();
 

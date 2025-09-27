@@ -1,39 +1,53 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { ref, watch } from 'vue'
 
 const page = usePage()
-const user = page.props.auth.user
+const user = ref(page.props.auth.user)
 
 const sidebarNavigationItems: NavigationMenuItem[][] = [
     [
         {
             label: 'Home',
             icon: 'i-lucide-house',
-            active: true,
+            to: route('dashboard'),
+            active: route().current('dashboard'),
+            target: '_self',
         },
         {
             label: 'Settings',
             icon: 'i-lucide-settings',
-            defaultOpen: true,
+            defaultOpen: route().current('settings.*'),
             children: [
                 {
                     label: 'Account',
                     icon: 'i-lucide-user-cog',
                     description: 'Configuration for user profile',
-                    to: '/docs/composables/define-shortcuts',
+                    to: route('settings.account.edit'),
+                    active: route().current('settings.account.edit'),
+                    target: '_self',
                 },
                 {
                     label: 'Preference',
                     icon: 'i-lucide-swatch-book',
                     description: 'Define preference for your application appearance',
                     to: '/docs/composables/define-shortcuts',
+                    target: '_self',
                 },
                 {
-                    label: 'Password & Authentication',
+                    label: 'Authentication',
                     icon: 'i-hugeicons-security',
                     description: 'Configuration for user profile',
                     to: '/docs/composables/define-shortcuts',
+                    target: '_self',
+                },
+                {
+                    label: 'Sessions',
+                    icon: 'i-heroicons-signal',
+                    description: 'Configuration for user profile',
+                    to: '/docs/composables/define-shortcuts',
+                    target: '_self',
                 },
             ],
         },
@@ -53,6 +67,17 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
         },
     ],
 ]
+
+watch(
+    () => page.props.auth.user,
+    () => {
+        user.value = page.props.auth.user
+    },
+    {
+        immediate: true,
+        deep: true,
+    },
+)
 </script>
 
 <template>

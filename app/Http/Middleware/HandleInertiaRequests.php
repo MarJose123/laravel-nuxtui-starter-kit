@@ -43,7 +43,11 @@ class HandleInertiaRequests extends Middleware
             'name'         => config('app.name'),
             'notification' => $request->session()->get('notification'),
             'auth'         => [
-                'user' => $request->user(),
+                'user' => function () use ($request) {
+                    $request->user()->refresh(); // reload and use the latest data
+
+                    return $request->user();
+                },
             ],
         ];
     }
