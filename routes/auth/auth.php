@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('verification.verify');
 
     Route::post('email/verification-notification', [UserEmailVerificationController::class, 'store'])
-        ->middleware('throttle:6,1')
+        ->middleware('throttle:3,1')
         ->name('verification.send');
 
     Route::post('logout', [LogoutController::class, 'destroy'])
