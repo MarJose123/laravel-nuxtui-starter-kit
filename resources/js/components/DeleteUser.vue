@@ -23,7 +23,7 @@ const onSubmit = () => {
                 <p class="font-medium">Warning</p>
                 <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
             </div>
-            <UModal :ui="{ footer: 'justify-end' }">
+            <UModal :close="false" :ui="{ footer: 'justify-end' }" @update:open="() => form.resetAndClearErrors()">
                 <UButton color="error" variant="solid">Delete account</UButton>
 
                 <template #title> Are you sure you want to delete your account? </template>
