@@ -23,9 +23,4 @@ class NewPasswordRequest extends FormRequest
             'password_confirmation' => ['required'],
         ];
     }
-
-    public function authorize(): bool
-    {
-        return true;
-    }
 }

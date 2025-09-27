@@ -78,9 +78,4 @@ class LoginRequest extends FormRequest
             ->transliterate()
             ->value();
     }
-
-    public function authorize(): bool
-    {
-        return true;
-    }
 }
