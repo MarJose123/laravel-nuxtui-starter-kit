@@ -21,7 +21,8 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
     {
         label: 'Account',
-        to: '/dashboard',
+        to: route('settings.account.edit'),
+        target: '_self',
     },
 ])
 
