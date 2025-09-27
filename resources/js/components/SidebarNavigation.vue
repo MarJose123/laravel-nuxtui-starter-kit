@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePage } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
 
 const page = usePage()
@@ -13,27 +13,27 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
             active: true,
         },
         {
-            label: 'Inbox',
-            icon: 'i-lucide-inbox',
-            badge: '4',
-        },
-        {
-            label: 'Contacts',
-            icon: 'i-lucide-users',
-        },
-        {
             label: 'Settings',
             icon: 'i-lucide-settings',
             defaultOpen: true,
             children: [
                 {
-                    label: 'General',
+                    label: 'Account',
+                    icon: 'i-lucide-user-cog',
+                    description: 'Configuration for user profile',
+                    to: '/docs/composables/define-shortcuts',
                 },
                 {
-                    label: 'Members',
+                    label: 'Preference',
+                    icon: 'i-lucide-swatch-book',
+                    description: 'Define preference for your application appearance',
+                    to: '/docs/composables/define-shortcuts',
                 },
                 {
-                    label: 'Notifications',
+                    label: 'Password & Authentication',
+                    icon: 'i-hugeicons-security',
+                    description: 'Configuration for user profile',
+                    to: '/docs/composables/define-shortcuts',
                 },
             ],
         },
@@ -58,9 +58,9 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
 <template>
     <UDashboardSidebar
         collapsible
-        :min-size="20"
-        :default-size="23"
-        :max-size="60"
+        :min-size="15"
+        :default-size="20"
+        :max-size="23"
         :ui="{ footer: 'border-t border-default' }"
     >
         <template #header="{ collapsed }">
@@ -71,10 +71,18 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
         </template>
 
         <template #default="{ collapsed }">
-            <UNavigationMenu :collapsed="collapsed" :items="sidebarNavigationItems[0]" orientation="vertical" />
+            <UNavigationMenu
+                :collapsed="collapsed"
+                :tooltip="!!collapsed"
+                :popover="!!collapsed"
+                :items="sidebarNavigationItems[0]"
+                orientation="vertical"
+            />
 
             <UNavigationMenu
                 :collapsed="collapsed"
+                :tooltip="!!collapsed"
+                :popover="!!collapsed"
                 :items="sidebarNavigationItems[1]"
                 orientation="vertical"
                 class="mt-auto"
@@ -101,6 +109,7 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
                         size="md"
                         color="neutral"
                         variant="link"
+                        @click.prevent="router.post(route('logout'))"
                         :class="
                             collapsed
                                 ? 'absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100'
