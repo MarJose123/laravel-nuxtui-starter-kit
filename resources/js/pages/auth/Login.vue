@@ -40,8 +40,6 @@ const fields = reactive([
 ])
 
 function onSubmit(payload: FormSubmitEvent<any>) {
-    console.log('Submitted', payload)
-
     fields.forEach((field) => {
         if (field.hasOwnProperty('error')) {
             field.error = false
@@ -60,7 +58,6 @@ function onSubmit(payload: FormSubmitEvent<any>) {
 watch(
     () => props.notification,
     (notification) => {
-        console.log('Notification', notification)
         if (notification) {
             toast.add({
                 title:

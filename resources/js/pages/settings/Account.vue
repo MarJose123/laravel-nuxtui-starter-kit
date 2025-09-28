@@ -27,11 +27,11 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
 ])
 
 const page = usePage()
-const user = page.props.auth.user
+const userRec = ref(page.props.auth.user)
 
 const form = useForm({
-    name: user.name,
-    email: user.email,
+    name: userRec.value.name,
+    email: userRec.value.email,
 })
 
 onMounted(() => {
@@ -68,6 +68,11 @@ watch(
     },
 )
 
+watch(
+    () => page.props.auth.user,
+    (user) => (userRec.value = user),
+)
+
 const onSubmit = () => {
     form.patch(route('settings.account.update'))
 }
@@ -90,7 +95,7 @@ const onSubmit = () => {
                 </UFormField>
 
                 <UFormField label="Email" name="email" :error="form.errors.email" required>
-                    <template #help v-if="mustVerifyEmail && !user.email_verified_at">
+                    <template #help v-if="mustVerifyEmail && !userRec.email_verified_at">
                         Your email address is unverified.
                         <UButton
                             @click.prevent="router.post(route('verification.send'))"

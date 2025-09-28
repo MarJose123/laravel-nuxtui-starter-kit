@@ -22,8 +22,6 @@ const form = useForm({
 })
 
 const onSubmit = () => {
-    console.log('Submitted', form)
-
     form.clearErrors()
 
     form.post(route('password.store'), {

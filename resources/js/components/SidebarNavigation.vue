@@ -1,39 +1,39 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const page = usePage()
 const user = ref(page.props.auth.user)
 
-const sidebarNavigationItems: NavigationMenuItem[][] = [
+const settingNavOpen = ref(false)
+
+const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
     [
         {
             label: 'Home',
             icon: 'i-lucide-house',
-            to: route('dashboard'),
-            active: route().current('dashboard'),
+            to: route('dashboard', {}, false),
             target: '_self',
         },
         {
             label: 'Settings',
             icon: 'i-lucide-settings',
-            defaultOpen: route().current('settings.*'),
+            active: settingNavOpen.value,
+            defaultOpen: settingNavOpen.value,
             children: [
                 {
                     label: 'Account',
                     icon: 'i-lucide-user-cog',
                     description: 'Configuration for user profile',
-                    to: route('settings.account.edit'),
-                    active: route().current('settings.account.edit'),
+                    to: route('settings.account.edit', {}, false),
                     target: '_self',
                 },
                 {
                     label: 'Appearance',
                     icon: 'i-lucide-swatch-book',
                     description: 'Define preference for your application themes',
-                    to: route('settings.appearance.edit'),
-                    active: route().current('settings.appearance.edit'),
+                    to: route('settings.appearance.edit', {}, false),
                     target: '_self',
                 },
                 {
@@ -67,12 +67,23 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
             target: '_blank',
         },
     ],
-]
+])
 
 watch(
     () => page.props.auth.user,
     () => {
         user.value = page.props.auth.user
+    },
+    {
+        immediate: true,
+        deep: true,
+    },
+)
+
+watch(
+    () => page.url,
+    () => {
+        settingNavOpen.value = route().current('settings.*')
     },
     {
         immediate: true,
@@ -98,6 +109,9 @@ watch(
 
         <template #default="{ collapsed }">
             <UNavigationMenu
+                type="single"
+                highlight
+                highlight-color="primary"
                 :collapsed="collapsed"
                 :tooltip="!!collapsed"
                 :popover="!!collapsed"
@@ -106,6 +120,7 @@ watch(
             />
 
             <UNavigationMenu
+                type="single"
                 :collapsed="collapsed"
                 :tooltip="!!collapsed"
                 :popover="!!collapsed"

@@ -9,8 +9,10 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/js/app.ts'],
-            ssr: 'resources/js/ssr.ts',
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.ts'
+            ],
             refresh: true,
         }),
         tailwindcss(),
@@ -26,7 +28,10 @@ export default defineConfig({
             inertia: true,
             colorMode: false,
             components: {
-                dirs: ['resources/js/components'],
+                dirs: [
+                    'resources/js/layouts',
+                    'resources/js/components'
+                ],
             },
             ui: {
                 colors: {
