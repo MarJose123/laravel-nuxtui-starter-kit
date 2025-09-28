@@ -9,3 +9,4 @@ Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard
 
 require __DIR__.'/auth/auth.php';
 require __DIR__.'/settings/account.php';
+require __DIR__.'/settings/appearance.php';
