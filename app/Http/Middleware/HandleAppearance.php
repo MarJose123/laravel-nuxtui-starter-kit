@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
 class HandleAppearance
@@ -16,7 +16,14 @@ class HandleAppearance
      */
     public function handle(Request $request, Closure $next): Response
     {
-        View::share('appearance', $request->cookie('appearance') ?? 'auto');
+        $request->user()?->refresh();
+        $appearance = $request->user()?->appearances->mode ?? 'auto';
+
+        // Share appearance with all Inertia responses
+        Inertia::share('appearance', $appearance);
+
+        // Also share with blade views
+        view()->share('appearance', $appearance);
 
         return $next($request);
     }
