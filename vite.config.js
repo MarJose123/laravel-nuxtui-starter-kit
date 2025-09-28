@@ -24,6 +24,7 @@ export default defineConfig({
         }),
         ui({
             inertia: true,
+            colorMode: false,
             components: {
                 dirs: ['resources/js/components'],
             },
