@@ -29,10 +29,11 @@ const sidebarNavigationItems: NavigationMenuItem[][] = [
                     target: '_self',
                 },
                 {
-                    label: 'Preference',
+                    label: 'Appearance',
                     icon: 'i-lucide-swatch-book',
-                    description: 'Define preference for your application appearance',
-                    to: '/docs/composables/define-shortcuts',
+                    description: 'Define preference for your application themes',
+                    to: route('settings.appearance.edit'),
+                    active: route().current('settings.appearance.edit'),
                     target: '_self',
                 },
                 {
