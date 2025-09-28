@@ -4,31 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- Inline script to handle initial color mode --}}
-    <script>
-        (function() {
-            const appearance = '{{ $appearance ?? "auto" }}';
-            const html = document.documentElement;
-
-            let theme = appearance;
-
-            if (appearance === 'auto') {
-                // Check system preference
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                theme = prefersDark ? 'dark' : 'light';
-            }
-
-            // Apply theme immediately to prevent flash
-            html.classList.remove('light', 'dark');
-            html.classList.add(theme);
-
-            // Set cookie with proper settings
-            const expires = new Date();
-            expires.setFullYear(expires.getFullYear() + 1);
-            document.cookie = `appearance=${appearance}; path=/; samesite=lax; expires=${expires.toUTCString()}${window.location.protocol === 'https:' ? '; secure' : ''}`;
-        })();
-    </script>
-
     <title inertia>{{ config('app.name', 'MarJose123/starter-kit') }}</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any">

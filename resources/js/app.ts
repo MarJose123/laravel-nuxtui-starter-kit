@@ -1,6 +1,5 @@
 import '../css/app.css'
 
-import colorModePlugin from '@/plugins/colormode'
 import { createInertiaApp } from '@inertiajs/vue3'
 import ui from '@nuxt/ui/vue-plugin'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
@@ -18,7 +17,6 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ui, { router: false })
-            .use(colorModePlugin)
             .use(ZiggyVue)
             .mount(el)
     },

@@ -12,23 +12,11 @@ class AppearanceController extends Controller
 {
     public function edit(Request $request): Response
     {
-        $appearance = $request->user()->appearances->mode ?? 'auto';
-
-        return Inertia::render('settings/Appearance', [
-            'appearance' => $appearance,
-        ]);
+        return Inertia::render('settings/Appearance');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'mode' => ['required', 'in:light,dark,auto'],
-        ]);
-
-        $request->user()->appearances()->updateOrCreate(
-            ['user_id' => $request->user()->id],
-            ['mode' => $validated['mode']]
-        );
 
         return to_route('settings.appearance.edit');
     }
