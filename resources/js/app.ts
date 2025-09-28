@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import type { DefineComponent } from 'vue'
 import { createApp, h } from 'vue'
 import { ZiggyVue } from 'ziggy-js'
+import { initializeTheme } from './composables/useAppearance';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Starter Kit'
 
@@ -22,3 +23,5 @@ createInertiaApp({
             .mount(el)
     },
 })
+// This will set light / dark mode on page load...
+initializeTheme();

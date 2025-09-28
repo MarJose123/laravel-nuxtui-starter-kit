@@ -2,10 +2,11 @@
 import AppLayout from '@/components/AppLayout.vue'
 import HeadingSmall from '@/components/HeadingSmall.vue'
 import Layout from '@/layouts/default.vue'
-import { Head } from '@inertiajs/vue3'
+import {Head, router} from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
 import { BasicColorSchema } from '@vueuse/core'
 import { ref } from 'vue'
+import {useAppearance} from "@/composables/useAppearance";
 
 defineOptions({ layout: Layout })
 
@@ -20,15 +21,32 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
 ])
 
+const { appearance, updateAppearance} = useAppearance();
+
 const modes: {
-    id: BasicColorSchema
-    label: string
+    label: 'light' | 'dark' | 'system'
     icon: string
 }[] = [
-    { id: 'light', label: 'light', icon: 'i-lucide-sun' },
-    { id: 'dark', label: 'dark', icon: 'i-lucide-moon' },
-    { id: 'auto', label: 'system', icon: 'i-mynaui-desktop' },
+    { label: 'light', icon: 'i-lucide-sun' },
+    {label: 'dark', icon: 'i-lucide-moon' },
+    { label: 'system', icon: 'i-mynaui-desktop' },
 ]
+
+const updateThemes = (theme:  'light' | 'dark' | 'system') => {
+    updateAppearance(theme)
+    // Sync with server
+    router.patch(
+        route('settings.appearance.store'),
+        {
+            appearance: theme,
+        },
+        {
+            preserveState: true,
+            preserveScroll: true,
+        },
+    )
+}
+
 </script>
 
 <template>
@@ -48,7 +66,8 @@ const modes: {
                             v-for="_mode in modes"
                             :key="_mode.label"
                             :icon="_mode.icon"
-                            variant="outline"
+                            @click.prevent="updateThemes(_mode.label)"
+                            :variant="appearance === _mode.label ? 'subtle' : 'outline'"
                             color="neutral"
                             :label="_mode.label"
                         />
