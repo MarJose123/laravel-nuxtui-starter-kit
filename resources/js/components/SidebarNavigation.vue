@@ -7,6 +7,7 @@ import { computed, ref, watch } from 'vue'
 const page = usePage()
 const user = ref(page.props.auth.user)
 const { updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
 
 const settingNavOpen = ref(false)
 
@@ -157,7 +158,11 @@ watch(
                                 route('logout'),
                                 {},
                                 {
-                                    onSuccess: () => updateAppearance('system'),
+                                    onSuccess: () => {
+                                        updateAppearance('system')
+                                        appConfig.ui.colors.primary = 'green'
+                                        appConfig.ui.colors.neutral = 'slate'
+                                    },
                                 },
                             )
                         "

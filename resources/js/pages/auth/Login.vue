@@ -16,6 +16,7 @@ const props = defineProps<{
 
 const toast = useToast()
 const { updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
 
 const fields = reactive([
     {
@@ -51,6 +52,8 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     router.post(route('login.store'), payload?.data, {
         onSuccess: (response) => {
             updateAppearance(response.props.appearance)
+            appConfig.ui.colors.primary = response.props.ui.primary ?? 'green'
+            appConfig.ui.colors.neutral = response.props.ui.neutral ?? 'slate'
         },
         onError: (errors) => {
             for (const errorsKey in errors) {

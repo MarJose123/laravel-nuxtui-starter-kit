@@ -1,7 +1,7 @@
 import { usePage } from '@inertiajs/vue3'
 import { onMounted, ref } from 'vue'
 
-type Appearance = 'light' | 'dark' | 'system'
+export type Appearance = 'light' | 'dark' | 'system'
 
 export function updateTheme(value: Appearance) {
     if (typeof window === 'undefined') {
