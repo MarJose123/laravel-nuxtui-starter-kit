@@ -160,6 +160,7 @@ watch(
                                 {
                                     onSuccess: () => {
                                         updateAppearance('system')
+                                        // reset app ui colors
                                         appConfig.ui.colors.primary = 'green'
                                         appConfig.ui.colors.neutral = 'slate'
                                     },
