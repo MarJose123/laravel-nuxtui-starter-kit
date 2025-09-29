@@ -99,10 +99,10 @@ onMounted(() => {
     >
         <template #footer v-if="props.canRegister">
             Don't have an account?
-            <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
+            <ULink :to="route('register', {}, false)" target="_self" class="font-medium text-primary">Sign up</ULink>.
         </template>
         <template #password-hint v-if="props.canResetPassword">
-            <ULink :to="route('password.request')" target="_self" class="font-medium text-primary" tabindex="-1"
+            <ULink :to="route('password.request', {}, false)" target="_self" class="font-medium text-primary" tabindex="-1"
                 >Forgot password?</ULink
             >
         </template>
