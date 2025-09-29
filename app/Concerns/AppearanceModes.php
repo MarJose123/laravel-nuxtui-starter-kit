@@ -6,14 +6,14 @@ enum AppearanceModes: string
 {
     case light = 'light';
     case dark = 'dark';
-    case auto = 'auto';
+    case system = 'system';
 
     public function label(): string
     {
         return match ($this) {
-            self::light  => 'Light',
-            self::dark   => 'Dark',
-            self::auto   => 'System',
+            self::light    => 'Light',
+            self::dark     => 'Dark',
+            self::system   => 'System',
         };
     }
 }

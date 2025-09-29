@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAppearance } from '@/composables/useAppearance'
 import Layout from '@/layouts/auth.vue'
 import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
@@ -14,6 +15,8 @@ const props = defineProps<{
 }>()
 
 const toast = useToast()
+const { updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
 
 const fields = reactive([
     {
@@ -47,6 +50,12 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     })
 
     router.post(route('login.store'), payload?.data, {
+        onSuccess: (response) => {
+            updateAppearance(response.props.appearance)
+            // update the app ui color based on the user preference
+            appConfig.ui.colors.primary = response.props.ui.primary ?? 'green'
+            appConfig.ui.colors.neutral = response.props.ui.neutral ?? 'slate'
+        },
         onError: (errors) => {
             for (const errorsKey in errors) {
                 fields[fields.findIndex((e) => e.name === errorsKey)].error = errors[errorsKey]
@@ -99,10 +108,14 @@ onMounted(() => {
     >
         <template #footer v-if="props.canRegister">
             Don't have an account?
-            <ULink :to="route('register')" target="_self" class="font-medium text-primary">Sign up</ULink>.
+            <ULink :to="route('register', {}, false)" target="_self" class="font-medium text-primary">Sign up</ULink>.
         </template>
         <template #password-hint v-if="props.canResetPassword">
-            <ULink :to="route('password.request')" target="_self" class="font-medium text-primary" tabindex="-1"
+            <ULink
+                :to="route('password.request', {}, false)"
+                target="_self"
+                class="font-medium text-primary"
+                tabindex="-1"
                 >Forgot password?</ULink
             >
         </template>

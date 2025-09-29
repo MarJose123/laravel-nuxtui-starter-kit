@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useAppearance } from '@/composables/useAppearance'
 import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { computed, ref, watch } from 'vue'
 
 const page = usePage()
 const user = ref(page.props.auth.user)
+const { updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
 
 const settingNavOpen = ref(false)
 
@@ -150,7 +153,20 @@ watch(
                         size="md"
                         color="neutral"
                         variant="link"
-                        @click.prevent="router.post(route('logout'))"
+                        @click.prevent="
+                            router.post(
+                                route('logout'),
+                                {},
+                                {
+                                    onSuccess: () => {
+                                        updateAppearance('system')
+                                        // reset app ui colors
+                                        appConfig.ui.colors.primary = 'green'
+                                        appConfig.ui.colors.neutral = 'slate'
+                                    },
+                                },
+                            )
+                        "
                         :class="
                             collapsed
                                 ? 'absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100'

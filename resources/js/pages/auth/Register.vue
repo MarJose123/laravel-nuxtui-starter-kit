@@ -101,7 +101,7 @@ const onSubmit = () => {
 
             <div class="mt-2 text-center text-sm text-muted">
                 Already have an account?
-                <ULink :to="route('login')" target="_self" class="font-medium text-primary">Login</ULink>.
+                <ULink :to="route('login', {}, false)" target="_self" class="font-medium text-primary">Login</ULink>.
             </div>
         </div>
     </div>

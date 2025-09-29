@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import AppLayout from '@/components/AppLayout.vue'
 import HeadingSmall from '@/components/HeadingSmall.vue'
+import { useAppearance } from '@/composables/useAppearance'
 import Layout from '@/layouts/default.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
-import { BasicColorSchema } from '@vueuse/core'
-import { ref } from 'vue'
+import { omit } from '@nuxt/ui/utils'
+import colors from 'tailwindcss/colors'
+import { computed, ref, watch } from 'vue'
 
 defineOptions({ layout: Layout })
 
@@ -20,15 +22,79 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
 ])
 
+const { appearance, updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
+
+const appearanceConfig = ref({
+    theme: appearance.value,
+    primary: appConfig.ui.colors.primary,
+    neutral: appConfig.ui.colors.neutral,
+})
+
+const neutralColors = ['slate', 'gray', 'zinc', 'neutral', 'stone']
+const colorsToOmit = ['inherit', 'current', 'transparent', 'black', 'white', ...neutralColors]
+const primaryColors = Object.keys(omit(colors, colorsToOmit as any))
+
 const modes: {
-    id: BasicColorSchema
-    label: string
+    label: 'light' | 'dark' | 'system'
     icon: string
 }[] = [
-    { id: 'light', label: 'light', icon: 'i-lucide-sun' },
-    { id: 'dark', label: 'dark', icon: 'i-lucide-moon' },
-    { id: 'auto', label: 'system', icon: 'i-mynaui-desktop' },
+    { label: 'light', icon: appConfig.ui.icons.light },
+    { label: 'dark', icon: appConfig.ui.icons.dark },
+    { label: 'system', icon: appConfig.ui.icons.system },
 ]
+
+const primary = computed({
+    get() {
+        return appConfig.ui.colors.primary
+    },
+    set(option) {
+        appConfig.ui.colors.primary = option
+        appearanceConfig.value.primary = option
+    },
+})
+
+const neutral = computed({
+    get() {
+        return appConfig.ui.colors.neutral
+    },
+    set(option) {
+        appConfig.ui.colors.neutral = option
+        appearanceConfig.value.neutral = option
+    },
+})
+
+const theme = computed({
+    get() {
+        return appearance.value
+    },
+    set(option: 'light' | 'dark' | 'system') {
+        updateAppearance(option)
+        appearanceConfig.value.theme = option
+    },
+})
+
+watch(
+    appearanceConfig,
+    (data) => {
+        console.log(data)
+        router.patch(
+            route('settings.appearance.store'),
+            {
+                appearance: data.theme,
+                primary_color: data.primary,
+                secondary_color: data.neutral,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        )
+    },
+    {
+        deep: true,
+    },
+)
 </script>
 
 <template>
@@ -44,13 +110,37 @@ const modes: {
             <div class="w-5/12 space-y-6">
                 <UFormField label="Theme">
                     <div class="flex flex-row gap-2">
-                        <UButton
+                        <ThemePickerButton
                             v-for="_mode in modes"
                             :key="_mode.label"
-                            :icon="_mode.icon"
-                            variant="outline"
-                            color="neutral"
-                            :label="_mode.label"
+                            v-bind="_mode"
+                            @click="theme = _mode.label"
+                            :selected="theme === _mode.label"
+                        />
+                    </div>
+                </UFormField>
+                <UFormField label="Primary Color">
+                    <div class="-mx-2 grid grid-cols-3 gap-1">
+                        <ThemePickerButton
+                            v-for="color in primaryColors"
+                            size="lg"
+                            :key="color"
+                            :label="color"
+                            :chip="color"
+                            :selected="primary === color"
+                            @click="primary = color"
+                        />
+                    </div>
+                </UFormField>
+                <UFormField label="Neutral Color">
+                    <div class="-mx-2 grid grid-cols-3 gap-1">
+                        <ThemePickerButton
+                            v-for="color in neutralColors"
+                            :key="color"
+                            :label="color"
+                            :chip="color === 'neutral' ? 'old-neutral' : color"
+                            :selected="neutral === color"
+                            @click="neutral = color"
                         />
                     </div>
                 </UFormField>
