@@ -22,18 +22,26 @@ class AppearanceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-           'appearance' => [
-               'required',
-               Rule::enum(AppearanceModes::class)
-           ],
+            'appearance' => [
+                'required',
+                Rule::enum(AppearanceModes::class),
+            ],
+            'primary_color' => [
+                'sometimes',
+                Rule::enum(AppearancePrimaryColor::class),
+            ],
+            'secondary_color' => [
+                'sometimes',
+                Rule::enum(AppearanceSecondaryColor::class),
+            ],
         ]);
 
         $request->user()->appearances->updateOrCreate([
             'user_id' => $request->user()->id,
         ],
             [
-                'mode' => $request->appearance,
-                'primary_color' => $request->primary_color ?? AppearancePrimaryColor::green,
+                'mode'            => $request->appearance,
+                'primary_color'   => $request->primary_color ?? AppearancePrimaryColor::green,
                 'secondary_color' => $request->secondary_color ?? AppearanceSecondaryColor::slate,
             ]
         );

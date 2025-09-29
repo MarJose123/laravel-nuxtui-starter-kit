@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useAppearance } from '@/composables/useAppearance'
 import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { computed, ref, watch } from 'vue'
-import {useAppearance} from "@/composables/useAppearance";
 
 const page = usePage()
 const user = ref(page.props.auth.user)
@@ -152,9 +152,15 @@ watch(
                         size="md"
                         color="neutral"
                         variant="link"
-                        @click.prevent="router.post(route('logout'), {}, {
-                            onSuccess: () => updateAppearance('system')
-                        })"
+                        @click.prevent="
+                            router.post(
+                                route('logout'),
+                                {},
+                                {
+                                    onSuccess: () => updateAppearance('system'),
+                                },
+                            )
+                        "
                         :class="
                             collapsed
                                 ? 'absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100'

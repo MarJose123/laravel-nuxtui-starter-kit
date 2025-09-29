@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAppearance } from '@/composables/useAppearance'
 import Layout from '@/layouts/auth.vue'
 import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
@@ -14,6 +15,7 @@ const props = defineProps<{
 }>()
 
 const toast = useToast()
+const { updateAppearance } = useAppearance()
 
 const fields = reactive([
     {
@@ -47,6 +49,9 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     })
 
     router.post(route('login.store'), payload?.data, {
+        onSuccess: (response) => {
+            updateAppearance(response.props.appearance)
+        },
         onError: (errors) => {
             for (const errorsKey in errors) {
                 fields[fields.findIndex((e) => e.name === errorsKey)].error = errors[errorsKey]
@@ -102,7 +107,11 @@ onMounted(() => {
             <ULink :to="route('register', {}, false)" target="_self" class="font-medium text-primary">Sign up</ULink>.
         </template>
         <template #password-hint v-if="props.canResetPassword">
-            <ULink :to="route('password.request', {}, false)" target="_self" class="font-medium text-primary" tabindex="-1"
+            <ULink
+                :to="route('password.request', {}, false)"
+                target="_self"
+                class="font-medium text-primary"
+                tabindex="-1"
                 >Forgot password?</ULink
             >
         </template>

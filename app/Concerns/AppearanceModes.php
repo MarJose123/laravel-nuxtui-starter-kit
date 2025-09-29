@@ -11,8 +11,8 @@ enum AppearanceModes: string
     public function label(): string
     {
         return match ($this) {
-            self::light  => 'Light',
-            self::dark   => 'Dark',
+            self::light    => 'Light',
+            self::dark     => 'Dark',
             self::system   => 'System',
         };
     }

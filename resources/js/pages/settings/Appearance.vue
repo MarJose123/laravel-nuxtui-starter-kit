@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import AppLayout from '@/components/AppLayout.vue'
 import HeadingSmall from '@/components/HeadingSmall.vue'
+import { useAppearance } from '@/composables/useAppearance'
 import Layout from '@/layouts/default.vue'
-import {Head, router} from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
-import { BasicColorSchema } from '@vueuse/core'
 import { ref } from 'vue'
-import {useAppearance} from "@/composables/useAppearance";
 
 defineOptions({ layout: Layout })
 
@@ -21,18 +20,18 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
 ])
 
-const { appearance, updateAppearance} = useAppearance();
+const { appearance, updateAppearance } = useAppearance()
 
 const modes: {
     label: 'light' | 'dark' | 'system'
     icon: string
 }[] = [
     { label: 'light', icon: 'i-lucide-sun' },
-    {label: 'dark', icon: 'i-lucide-moon' },
+    { label: 'dark', icon: 'i-lucide-moon' },
     { label: 'system', icon: 'i-mynaui-desktop' },
 ]
 
-const updateThemes = (theme:  'light' | 'dark' | 'system') => {
+const updateThemes = (theme: 'light' | 'dark' | 'system') => {
     updateAppearance(theme)
     // Sync with server
     router.patch(
@@ -46,7 +45,6 @@ const updateThemes = (theme:  'light' | 'dark' | 'system') => {
         },
     )
 }
-
 </script>
 
 <template>
