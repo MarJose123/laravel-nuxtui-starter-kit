@@ -11,6 +11,23 @@ const appConfig = useAppConfig()
 
 const settingNavOpen = ref(false)
 
+const handleLogout = () => {
+    router.post(
+        route('logout'),
+        {},
+        {
+            onSuccess: () => {
+                updateAppearance('system')
+                // reset app ui colors
+                appConfig.ui.colors.primary = 'green'
+                appConfig.ui.colors.neutral = 'slate'
+                // flush
+                router.flushAll()
+            },
+        },
+    )
+}
+
 const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
     [
         {
@@ -42,8 +59,15 @@ const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
                 {
                     label: 'Authentication',
                     icon: 'i-hugeicons-security',
-                    description: 'Configuration for user profile',
-                    to: '/docs/composables/define-shortcuts',
+                    description: 'Secure your password',
+                    to: route('settings.password.edit', {}, false),
+                    target: '_self',
+                },
+                {
+                    label: 'Two Factor Auth (2FA)',
+                    icon: 'i-streamline-plump:padlock-key',
+                    description: 'Secure your account by adding 2FA',
+                    to: '/two-factor-authentication/',
                     target: '_self',
                 },
                 {
@@ -153,20 +177,7 @@ watch(
                         size="md"
                         color="neutral"
                         variant="link"
-                        @click.prevent="
-                            router.post(
-                                route('logout'),
-                                {},
-                                {
-                                    onSuccess: () => {
-                                        updateAppearance('system')
-                                        // reset app ui colors
-                                        appConfig.ui.colors.primary = 'green'
-                                        appConfig.ui.colors.neutral = 'slate'
-                                    },
-                                },
-                            )
-                        "
+                        @click.prevent="handleLogout"
                         :class="
                             collapsed
                                 ? 'absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100'
