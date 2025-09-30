@@ -17,7 +17,7 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
     {
         label: 'Appearance',
-        to: route('settings.appearance.edit'),
+        to: route('settings.appearance.edit', {}, false),
         target: '_self',
     },
 ])
