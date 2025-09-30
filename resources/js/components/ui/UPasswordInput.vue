@@ -5,6 +5,8 @@ const props = defineProps<{
     label?: string
     error?: string
     modelValue: string
+    name?: string
+    placeholder?: string
 }>()
 
 const emit = defineEmits<{
@@ -52,11 +54,16 @@ const text = computed(() => {
 
 <template>
     <div class="space-y-2">
-        <UFormField :label="label ?? 'Password'" :name="label?.toLowerCase() ?? 'password'" :error="error" required>
+        <UFormField
+            :label="label ?? 'Password'"
+            :name="name ?? label?.toLowerCase() ?? 'password'"
+            :error="error"
+            required
+        >
             <UInput
                 :model-value="modelValue"
                 @input="emit('update:modelValue', $event.target.value)"
-                placeholder="Input your password"
+                :placeholder="placeholder ?? 'Input your password'"
                 :color="color"
                 :type="showPassword ? 'text' : 'password'"
                 :aria-invalid="score < 4"
