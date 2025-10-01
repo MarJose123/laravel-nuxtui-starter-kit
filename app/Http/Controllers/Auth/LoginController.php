@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Fortify\Features;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LoginController extends Controller
@@ -31,6 +32,15 @@ class LoginController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $user = $this->loginUser->handle($request);
+
+        if (Features::enabled(Features::twoFactorAuthentication()) && $user->hasEnabledTwoFactorAuthentication()) {
+            $request->session()->put([
+                'login.id'       => $user->getKey(),
+                'login.remember' => $request->boolean('remember'),
+            ]);
+
+            return to_route('two-factor.login');
+        }
 
         Auth::login($user, $request->boolean('remember'));
 

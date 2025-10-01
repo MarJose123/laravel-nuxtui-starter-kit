@@ -18,13 +18,17 @@ class HandleAppearance
     public function handle(Request $request, Closure $next): Response
     {
         $request->user()?->refresh();
-        $appearance = $request->user()?->appearances;
+        $appearance = $request->user()?->appearance;
 
-        View::share('appearance', $appearance?->mode ?? 'system');
-        Inertia::share('appearance', $appearance?->mode ?? 'system');
+        $mode = $appearance->mode ?? 'system';
+        $primaryColor = $appearance->primary_color ?? 'green';
+        $secondaryColor = $appearance->secondary_color ?? 'slate';
+
+        View::share('appearance', $mode);
+        Inertia::share('appearance', $mode);
         Inertia::share('ui', [
-            'primary' => $appearance?->primary_color ?? 'green',
-            'neutral' => $appearance?->secondary_color ?? 'slate',
+            'primary' => $primaryColor,
+            'neutral' => $secondaryColor,
         ]);
 
         return $next($request);

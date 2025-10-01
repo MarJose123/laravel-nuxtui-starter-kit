@@ -12,7 +12,7 @@ const breadcrumbItems = ref([
     },
     {
         label: 'Dashboard',
-        to: route('dashboard'),
+        to: route('dashboard', {}, false),
         target: '_self',
     },
 ])
