@@ -20,15 +20,12 @@ class HandleAppearance
         $request->user()?->refresh();
         $appearance = $request->user()?->appearance;
 
-        $mode = $appearance->mode ?? 'system';
-        $primaryColor = $appearance->primary_color ?? 'green';
-        $secondaryColor = $appearance->secondary_color ?? 'slate';
+        View::share('theme', $appearance->mode ?? 'system');
 
-        View::share('appearance', $mode);
-        Inertia::share('appearance', $mode);
-        Inertia::share('ui', [
-            'primary' => $primaryColor,
-            'neutral' => $secondaryColor,
+        Inertia::share('theme', [
+            'mode'    => $appearance->mode ?? 'system',
+            'primary' => $appearance->primary_color ?? 'green',
+            'neutral' => $appearance->secondary_color ?? 'slate',
         ]);
 
         return $next($request);

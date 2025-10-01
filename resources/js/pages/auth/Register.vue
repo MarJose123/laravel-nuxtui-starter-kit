@@ -3,11 +3,8 @@ import Logo from '@/components/Logo.vue'
 import UPasswordInput from '@/components/ui/UPasswordInput.vue'
 import Layout from '@/layouts/auth.vue'
 import { Head, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
 
 defineOptions({ layout: Layout })
-
-const show = ref(false)
 
 const form = useForm({
     name: '',
@@ -60,33 +57,13 @@ const onSubmit = () => {
 
                     <UPasswordInput v-model="form.password" label="Password" :error="form.errors.password" required />
 
-                    <UFormField
+                    <USimplePasswordInput
+                        v-model="form.password_confirmation"
                         label="Confirm Password"
                         name="password_confirmation"
                         :error="form.errors.password_confirmation"
-                        required
-                    >
-                        <UInput
-                            v-model="form.password_confirmation"
-                            placeholder="Confirm your password"
-                            :type="show ? 'text' : 'password'"
-                            :ui="{ trailing: 'pe-1' }"
-                            class="w-full"
-                        >
-                            <template #trailing>
-                                <UButton
-                                    color="neutral"
-                                    variant="link"
-                                    size="sm"
-                                    :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                                    :aria-label="show ? 'Hide password' : 'Show password'"
-                                    :aria-pressed="show"
-                                    aria-controls="password"
-                                    @click="show = !show"
-                                />
-                            </template>
-                        </UInput>
-                    </UFormField>
+                        placeholder="Confirm your password"
+                    />
 
                     <UButton
                         label="Register"

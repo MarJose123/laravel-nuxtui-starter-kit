@@ -55,10 +55,10 @@ export function initializeTheme() {
         return
     }
 
-    // Initialize theme from saved preference or default to system...
+    // Initialize the theme from saved preference or default to a system...
     const savedAppearance = getStoredAppearance()
-    const savedDbAppearance = usePage()?.props?.appearance
-    updateTheme(savedAppearance ?? savedDbAppearance ?? 'system')
+    const savedDbAppearance = usePage()?.props?.theme.mode
+    updateTheme(savedDbAppearance ?? savedAppearance ?? 'system')
 
     // Set up the system theme change listener...
     mediaQuery()?.addEventListener('change', handleSystemThemeChange)
@@ -69,7 +69,7 @@ const appearance = ref<Appearance>('system')
 export function useAppearance() {
     onMounted(() => {
         const savedAppearance =
-            (localStorage.getItem('appearance') as Appearance) ?? usePage().props?.appearance ?? 'system'
+            (localStorage.getItem('appearance') as Appearance) ?? usePage().props?.theme.mode ?? 'system'
 
         if (savedAppearance) {
             appearance.value = savedAppearance

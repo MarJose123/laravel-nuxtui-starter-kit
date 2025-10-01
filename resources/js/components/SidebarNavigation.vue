@@ -123,7 +123,7 @@ watch(
     <UDashboardSidebar
         collapsible
         :min-size="15"
-        :default-size="20"
+        :default-size="15.5"
         :max-size="23"
         :ui="{ footer: 'border-t border-default' }"
     >
@@ -163,11 +163,8 @@ watch(
                     :name="collapsed ? undefined : user.name"
                     :description="collapsed ? undefined : user.email"
                     :avatar="{
-                        src: 'https://github.com/marjose123.png',
-                    }"
-                    :chip="{
-                        color: 'primary',
-                        position: 'top-right',
+                        src: undefined, // you can replace it with your user avatar
+                        alt: user.name, // fallback image holder if the 'src' is undefined
                     }"
                     :class="collapsed ? 'transition-opacity duration-200 group-hover:opacity-0' : ''"
                 />

@@ -51,10 +51,10 @@ function onSubmit(payload: FormSubmitEvent<any>) {
 
     router.post(route('login.store'), payload?.data, {
         onSuccess: (response) => {
-            updateAppearance(response.props.appearance)
+            updateAppearance(response.props.theme.mode)
             // update the app ui color based on the user preference
-            appConfig.ui.colors.primary = response.props.ui.primary ?? 'green'
-            appConfig.ui.colors.neutral = response.props.ui.neutral ?? 'slate'
+            appConfig.ui.colors.primary = response.props.theme.primary ?? 'green'
+            appConfig.ui.colors.neutral = response.props.theme.neutral ?? 'slate'
         },
         onError: (errors) => {
             for (const errorsKey in errors) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\Auth\SessionUserResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Override;
@@ -46,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => function () use ($request) {
                     $request->user()?->refresh(); // reload and use the latest data
 
-                    return $request->user();
+                    return $request->user() ? SessionUserResource::make($request->user()) : null;
                 },
             ],
         ];

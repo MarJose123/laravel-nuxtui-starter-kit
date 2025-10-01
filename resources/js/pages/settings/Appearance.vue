@@ -81,9 +81,9 @@ watch(
         router.patch(
             route('settings.appearance.store'),
             {
-                appearance: data.theme,
-                primary_color: data.primary,
-                secondary_color: data.neutral,
+                mode: data.theme,
+                primary: data.primary,
+                secondary: data.neutral,
             },
             {
                 preserveState: true,
@@ -111,6 +111,7 @@ watch(
                 <UFormField label="Theme">
                     <div class="flex flex-row gap-2">
                         <ThemePickerButton
+                            size="md"
                             v-for="_mode in modes"
                             :key="_mode.label"
                             v-bind="_mode"
@@ -120,10 +121,10 @@ watch(
                     </div>
                 </UFormField>
                 <UFormField label="Primary Color">
-                    <div class="-mx-2 grid grid-cols-3 gap-1">
+                    <div class="-mx-2 grid grid-cols-3 gap-2">
                         <ThemePickerButton
                             v-for="color in primaryColors"
-                            size="lg"
+                            size="xl"
                             :key="color"
                             :label="color"
                             :chip="color"
@@ -133,9 +134,10 @@ watch(
                     </div>
                 </UFormField>
                 <UFormField label="Neutral Color">
-                    <div class="-mx-2 grid grid-cols-3 gap-1">
+                    <div class="-mx-2 grid grid-cols-3 gap-2">
                         <ThemePickerButton
                             v-for="color in neutralColors"
+                            size="xl"
                             :key="color"
                             :label="color"
                             :chip="color === 'neutral' ? 'old-neutral' : color"

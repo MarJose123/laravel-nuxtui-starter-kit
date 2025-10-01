@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Logo from '@/components/Logo.vue'
+import { useAppearance } from '@/composables/useAppearance'
 import { Head, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
@@ -8,6 +9,9 @@ interface AuthConfigContent {
     description: string
     toggleText: string
 }
+
+const { updateAppearance } = useAppearance()
+const appConfig = useAppConfig()
 
 const authConfigContent = computed<AuthConfigContent>(() => {
     if (showRecoveryInput.value) {
@@ -55,6 +59,12 @@ const twoFactorLogin = (usingRecoveryCode: boolean = false) => {
                 ...(usingRecoveryCode ? { recovery_code: recoveryCode.value } : { code: codeValue.value }),
             },
             {
+                onSuccess: (response) => {
+                    updateAppearance(response.props.theme.mode)
+                    // update the app ui color based on the user preference
+                    appConfig.ui.colors.primary = response.props.theme.primary ?? 'green'
+                    appConfig.ui.colors.neutral = response.props.theme.neutral ?? 'slate'
+                },
                 onError: (err) =>
                     usingRecoveryCode ? (recoveryCodeError.value = err.recovery_code) : (codeError.value = err.code),
             },
