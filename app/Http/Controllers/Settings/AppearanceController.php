@@ -6,6 +6,7 @@ use App\Concerns\AppearanceModes;
 use App\Concerns\AppearancePrimaryColor;
 use App\Concerns\AppearanceSecondaryColor;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -36,9 +37,13 @@ class AppearanceController extends Controller
             ],
         ]);
 
-        $request->user()->appearances->updateOrCreate([
-            'user_id' => $request->user()->id,
-        ],
+        /** @var User $user */
+        $user = $request->user();
+
+        $user->appearance->updateOrCreate(
+            [
+                'user_id' => $user->id,
+            ],
             [
                 'mode'            => $request->appearance,
                 'primary_color'   => $request->primary_color ?? AppearancePrimaryColor::green,

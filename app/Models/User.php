@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function appearances(): HasOne|User
+    public function appearance(): HasOne
     {
         return $this->hasOne(Appearance::class);
     }
