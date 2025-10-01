@@ -26,7 +26,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/TwoFactorChallenge'));
+        Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/TwoFactorPrompt'));
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/ConfirmPasswordPrompt'));
 
         RateLimiter::for('two-factor', fn (Request $request) => Limit::perMinute(5)->by($request->session()->get('login.id')));

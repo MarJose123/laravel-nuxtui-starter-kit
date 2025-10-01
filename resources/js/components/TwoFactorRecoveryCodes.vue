@@ -47,7 +47,7 @@ onMounted(async () => {
                 <UIcon name="i-lucide-lock-keyhole" class="size-6" />
                 <div class="flex flex-col">
                     <div class="text-xl font-semibold text-pretty text-highlighted">2FA Recovery Codes</div>
-                    <div class="flex gap-1 text-sm text-muted">
+                    <div class="flex gap-1 text-sm text-pretty text-muted">
                         Recovery codes let you regain access if you lose your 2FA device. Store them in a secure
                         password manager.
                     </div>
