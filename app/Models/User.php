@@ -48,6 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    /**
+     * @return HasOne<Appearance, $this>
+     */
     public function appearance(): HasOne
     {
         return $this->hasOne(Appearance::class);

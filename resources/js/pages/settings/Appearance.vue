@@ -81,9 +81,9 @@ watch(
         router.patch(
             route('settings.appearance.store'),
             {
-                appearance: data.theme,
-                primary_color: data.primary,
-                secondary_color: data.neutral,
+                mode: data.theme,
+                primary: data.primary,
+                secondary: data.neutral,
             },
             {
                 preserveState: true,
