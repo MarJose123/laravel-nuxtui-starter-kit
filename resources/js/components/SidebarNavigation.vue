@@ -67,7 +67,7 @@ const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
                     label: 'Two Factor Auth (2FA)',
                     icon: 'i-streamline-plump:padlock-key',
                     description: 'Secure your account by adding 2FA',
-                    to: '/two-factor-authentication/',
+                    to: route('settings.two-factor.show', {}, false),
                     target: '_self',
                 },
                 {
