@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Actions\User\CreateUserTheme;
 use App\Concerns\AppearancePrimaryColor;
 use App\Concerns\AppearanceSecondaryColor;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,8 @@ use Inertia\Response;
 
 class AppearanceController extends Controller
 {
+    public function __construct(private readonly CreateUserTheme $userTheme) {}
+
     public function edit(Request $request): Response
     {
         return Inertia::render('settings/Appearance');
@@ -25,16 +28,11 @@ class AppearanceController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        $user->appearance()->updateOrCreate(
-            [
-                'user_id' => $user->id,
-            ],
-            [
-                'mode'            => $request->mode,
-                'primary_color'   => $request->primary ?? AppearancePrimaryColor::green,
-                'secondary_color' => $request->secondary ?? AppearanceSecondaryColor::slate,
-            ]
-        );
+        $this->userTheme->handle($user, [
+            'mode'            => $request->mode,
+            'primary'         => $request->primary ?? AppearancePrimaryColor::green,
+            'secondary'       => $request->secondary ?? AppearanceSecondaryColor::slate,
+        ]);
 
         return to_route('settings.appearance.edit');
     }
