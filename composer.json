@@ -25,10 +25,12 @@
         "ext-curl": "*",
         "ext-json": "*",
         "inertiajs/inertia-laravel": "^2.0",
+        "jaybizzle/crawler-detect": "^1.3",
         "laravel/fortify": "^1.30",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "mobiledetect/mobiledetectlib": "^4.8",
+        "spatie/emoji": "^4.1",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
