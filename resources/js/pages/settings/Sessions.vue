@@ -22,6 +22,14 @@ interface WebSession {
         browser: string | null
         platform: string | null
         is_desktop: boolean
+        country: string | null
+        country_code: string | null
+        flag: string | null
+        city: string | null
+        isp: string | null
+        timezone: string | null
+        latitude: string | null
+        longitude: string | null
     }
     ip_address: string
     is_current_device: boolean
@@ -79,9 +87,20 @@ defineProps<{
 
                             <div>
                                 <div class="flex-col text-xs text-gray-500">
-                                    <div>🌍 Unknown</div>
+                                    <div class="flex flex-row gap-1">
+                                        <div>
+                                            <UIcon
+                                                :name="`i-circle-flags:${session.agent.country_code ? session.agent.country_code.toLowerCase() : 'xx'}`"
+                                            />
+                                        </div>
+                                        <div>
+                                            {{ session.agent.country ?? 'Unknown' }} -
+                                            {{ session.agent.city ?? 'Unknown' }}
+                                        </div>
+                                    </div>
                                     <div>IP: {{ session.ip_address }}</div>
-                                    <div v-if="!session.is_current_device">Last active: {{ session.last_active }}</div>
+                                    <div>ISP: {{ session.agent.isp ?? 'N/A' }}</div>
+                                    <div v-if="!session.is_current_device">Last seen: {{ session.last_active }}</div>
                                 </div>
                             </div>
                         </div>

@@ -11,13 +11,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Inertia\Response;
 use Laravel\Fortify\Actions\ConfirmPassword;
 
 class SessionController extends Controller
 {
     public function __construct(public readonly StatefulGuard $guard, private readonly DeleteUserSessions $deleteUserSessions, private readonly RetrieveWebUserSession $retrieveWebUserSession) {}
 
-    public function edit(Request $request)
+    public function edit(Request $request): Response
     {
         return Inertia::render('settings/Sessions', [
             'sessions' => $this->retrieveWebUserSession->handle($request),

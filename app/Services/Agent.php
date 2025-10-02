@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Override;
 use Closure;
 use Detection\Cache\CacheException;
 use Detection\Exception\MobileDetectException;
@@ -137,6 +138,7 @@ class Agent extends MobileDetect
         return static::$crawlerDetect ??= new CrawlerDetect;
     }
 
+    #[Override]
     public static function getBrowsers(): array
     {
         return static::mergeRules(
@@ -145,6 +147,7 @@ class Agent extends MobileDetect
         );
     }
 
+    #[Override]
     public static function getOperatingSystems(): array
     {
         return static::mergeRules(
@@ -166,6 +169,7 @@ class Agent extends MobileDetect
         return static::$desktopDevices;
     }
 
+    #[Override]
     public static function getProperties(): array
     {
         return static::mergeRules(
@@ -197,7 +201,7 @@ class Agent extends MobileDetect
         foreach (explode(',', $acceptLanguage) as $piece) {
             $parts = explode(';', $piece);
             $language = strtolower($parts[0]);
-            $priority = empty($parts[1]) ? 1. : (float) str_replace('q=', '', $parts[1]);
+            $priority = blank($parts[1]) ? 1. : (float) str_replace('q=', '', $parts[1]);
 
             $languages[$language] = $priority;
         }
@@ -219,7 +223,7 @@ class Agent extends MobileDetect
      */
     public function platform(?string $userAgent = null): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('app.platform', fn () => $this->findDetectionRulesAgainstUA(static::getPlatforms(), $userAgent));
+        return $this->retrieveUsingCacheOrResolve('app.platform', fn (): bool|string => $this->findDetectionRulesAgainstUA(static::getPlatforms(), $userAgent));
     }
 
     /**
@@ -233,7 +237,7 @@ class Agent extends MobileDetect
      */
     public function browser(?string $userAgent = null): ?string
     {
-        return $this->retrieveUsingCacheOrResolve('app.browser', fn () => $this->findDetectionRulesAgainstUA(static::getBrowsers(), $userAgent));
+        return $this->retrieveUsingCacheOrResolve('app.browser', fn (): bool|string => $this->findDetectionRulesAgainstUA(static::getBrowsers(), $userAgent));
     }
 
     /**
@@ -258,8 +262,8 @@ class Agent extends MobileDetect
                     return true;
                 }
 
-                return ! $this->isMobile($userAgent, $httpHeaders)
-                    && ! $this->isTablet($userAgent, $httpHeaders)
+                return ! $this->isMobile()
+                    && ! $this->isTablet()
                     && ! $this->isRobot($userAgent);
             }
         );
@@ -275,7 +279,7 @@ class Agent extends MobileDetect
     public function robot(?string $userAgent = null): bool|string
     {
         if ($this->getCrawlerDetect()->isCrawler($userAgent ?: $this->userAgent)) {
-            return ucfirst($this->getCrawlerDetect()->getMatches());
+            return ucfirst((string) $this->getCrawlerDetect()->getMatches());
         }
 
         return false;
@@ -313,7 +317,7 @@ class Agent extends MobileDetect
             return 'phone';
         }
 
-        if ($this->isTablet($userAgent, $httpHeaders)) {
+        if ($this->isTablet()) {
             return 'tablet';
         }
 
@@ -324,9 +328,10 @@ class Agent extends MobileDetect
         return 'other';
     }
 
+    #[Override]
     public function version(string $propertyName, string $type = self::VERSION_TYPE_STRING): float|bool|string
     {
-        if (empty($propertyName)) {
+        if (blank($propertyName)) {
             return false;
         }
 
@@ -351,9 +356,9 @@ class Agent extends MobileDetect
                 $propertyPattern = str_replace('[VER]', self::VERSION_REGEX, $propertyMatchString);
 
                 // Identify and extract the version.
-                preg_match(sprintf('#%s#is', $propertyPattern), $this->userAgent, $match);
+                preg_match(sprintf('#%s#is', $propertyPattern), (string) $this->userAgent, $match);
 
-                if (empty($match[1]) === false) {
+                if (blank($match[1]) === false) {
                     $version = ($type === self::VERSION_TYPE_FLOAT ? $this->prepareVersionNo($match[1]) : $match[1]);
 
                     return $version;
@@ -376,13 +381,13 @@ class Agent extends MobileDetect
     {
         // Begin a general search.
         foreach ($rules as $key => $_regex) {
-            if (empty($_regex)) {
+            if (blank($_regex)) {
                 continue;
             }
 
             // regex is an array of "strings"
             if (is_array($_regex)) {
-                foreach ($_regex as $k => $regexString) {
+                foreach ($_regex as $regexString) {
                     if ($this->match($regexString, $userAgent)) {
                         return $key;
                     }
@@ -398,6 +403,7 @@ class Agent extends MobileDetect
         return false;
     }
 
+    #[Override]
     public function match(string $regex, ?string $userAgent = null): bool
     {
         $userAgent ??= $this->userAgent;
@@ -423,7 +429,7 @@ class Agent extends MobileDetect
             return $cacheItem;
         }
 
-        return tap(call_user_func($callback), function (mixed $result) use ($cacheKey): void {
+        return tap(call_user_func($callback), function ($result) use ($cacheKey): void {
             $this->store[$cacheKey] = $result;
         });
     }
@@ -441,7 +447,7 @@ class Agent extends MobileDetect
 
         foreach ($all as $rules) {
             foreach ($rules as $key => $value) {
-                if (empty($merged[$key])) {
+                if (blank($merged[$key])) {
                     $merged[$key] = $value;
                 } elseif (is_array($merged[$key])) {
                     $merged[$key][] = $value;
@@ -457,7 +463,7 @@ class Agent extends MobileDetect
     protected function overrideUAAndHeaders(
         ?string $userAgent,
         ?array $temporaryHttpHeaders,
-        \Closure $callback
+        Closure $callback
     ) {
         $ua = $this->userAgent;
 
@@ -476,6 +482,7 @@ class Agent extends MobileDetect
         return $result;
     }
 
+    #[Override]
     public function getHttpHeader(string $header): ?string
     {
         if ($this->temporaryHttpHeaders !== null) {
@@ -501,6 +508,7 @@ class Agent extends MobileDetect
         return parent::getHttpHeader($header);
     }
 
+    #[Override]
     protected function matchUserAgentWithRule(string $ruleName): bool
     {
         $result = false;
@@ -509,11 +517,12 @@ class Agent extends MobileDetect
         // change the keys to lower case
         $_rules = array_change_key_case($this->getExtendedRules());
 
-        if (empty($_rules[$ruleName]) === false) {
+        if (blank($_rules[$ruleName]) === false) {
             $regexString = $_rules[$ruleName];
             if (is_array($_rules[$ruleName])) {
                 $regexString = implode('|', $_rules[$ruleName]);
             }
+
             $result = $this->match($regexString, $this->getUserAgent());
         }
 
