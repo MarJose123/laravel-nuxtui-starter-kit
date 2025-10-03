@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Layout from '@/layouts/default.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
 import { ref } from 'vue'
 
@@ -41,6 +41,23 @@ interface WebSession {
 defineProps<{
     sessions: WebSession[]
 }>()
+
+const form = useForm({
+    password: '',
+})
+const onSubmitRevokeWebSessions = () => {
+    form.delete(route('settings.sessions.destroy'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            showWebSessionsRevokeModal.value = false
+            form.reset('password')
+        },
+        onError: () => {
+            form.reset('password')
+        },
+    })
+}
+const showWebSessionsRevokeModal = ref(false)
 </script>
 
 <template>
@@ -60,7 +77,35 @@ defineProps<{
             <UCard as="div" variant="subtle" class="flex w-6/12 flex-col">
                 <template #header>
                     <div class="flex w-full flex-row">
-                        <UButton class="ml-auto flex" color="error" size="sm" variant="subtle" label="Revoke All" />
+                        <UModal v-model:open="showWebSessionsRevokeModal" :ui="{ footer: 'justify-end' }">
+                            <UButton class="ml-auto flex" color="error" size="sm" variant="subtle" label="Revoke All" />
+
+                            <template #title>Log Out Other Browser Sessions</template>
+                            <template #description>
+                                Please enter your password to confirm you would like to log out of your other browser
+                                sessions across all of your devices.
+                            </template>
+                            <template #body>
+                                <USimplePasswordInput
+                                    name="password"
+                                    label="Password"
+                                    v-model="form.password"
+                                    :error="form.errors.password"
+                                    placeholder="Password"
+                                    required
+                                    autofocus
+                                />
+                            </template>
+                            <template #footer="{ close }">
+                                <UButton label="Cancel" color="neutral" variant="outline" @click="close" />
+                                <UButton
+                                    label="Revoke All"
+                                    color="error"
+                                    variant="solid"
+                                    @click.prevent="onSubmitRevokeWebSessions"
+                                />
+                            </template>
+                        </UModal>
                     </div>
                 </template>
 
