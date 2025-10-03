@@ -20,7 +20,7 @@ class GeoIpLocation extends Driver
     #[Override]
     public function get(Request $request): Position|false
     {
-        return Cache::remember('geoip-' . $request->getIp(), now()->addMonth(), function () use ($request) {
+        return Cache::remember('geoip-'.md5($request->getIp()), now()->addMonth(), function () use ($request) {
             $data = $this->process($request);
 
             $position = $this->makePosition();
@@ -49,7 +49,7 @@ class GeoIpLocation extends Driver
     protected function process(Request $request): Fluent|false
     {
         $url = Uri::of('https://api.ipquery.io')
-            ->withPath('/' . $request->getIp())
+            ->withPath('/'.$request->getIp())
             ->withQuery(['format' => 'json']);
         $response = Http::get($url);
 
