@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Fluent;
 use Stevebauman\Location\Facades\Location;
 use Stevebauman\Location\Position;
 
@@ -17,6 +18,13 @@ class RetrieveWebUserSession
         return $this->userSessions($request);
     }
 
+    /**
+     * Get the user sessions from the database.
+     *
+     * @param Request $request
+     *
+     * @return Collection<int, Fluent>
+     */
     private function userSessions(Request $request): Collection
     {
         if (config('session.driver') !== 'database') {
@@ -33,7 +41,7 @@ class RetrieveWebUserSession
             /** @var Position $location */
             $location = Location::get($session->ip_address);
 
-            return (object) [
+            return new Fluent([
                 'agent' => [
                     'is_desktop'   => $agent->isDesktop(),
                     'platform'     => $agent->platform(),
@@ -41,6 +49,7 @@ class RetrieveWebUserSession
                     'country'      => $location->countryName,
                     'country_code' => $location->countryCode,
                     'city'         => $location->cityName,
+                    /** @phpstan-ignore property.notFound */
                     'isp'          => $location->isp,
                     'timezone'     => $location->timezone,
                     'latitude'     => $location->latitude,
@@ -50,7 +59,7 @@ class RetrieveWebUserSession
                 'ip_address'        => $session->ip_address,
                 'is_current_device' => $session->id === $request->session()->getId(),
                 'last_active'       => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
-            ];
+            ]);
         });
 
     }
