@@ -13,11 +13,13 @@
     "require": {
         "php": "^8.4",
         "ext-curl": "*",
+        "dedoc/scramble": "^0.12.35",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/fortify": "^1.30",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "scalar/laravel": "^0.2.0",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {

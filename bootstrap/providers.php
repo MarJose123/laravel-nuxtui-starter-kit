@@ -4,4 +4,5 @@ return [
     App\Providers\AppServiceProvider::class,
     App\Providers\FortifyServiceProvider::class,
     App\Providers\SanctumServiceProvider::class,
+    App\Providers\ScrambleServiceProvider::class,
 ];
