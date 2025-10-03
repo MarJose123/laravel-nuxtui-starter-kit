@@ -30,7 +30,7 @@ class RetrieveWebUserSession
                 ->get()
         )->map(function ($session) use ($request) {
             $agent = $this->createAgent($session);
-            /** @var Position $location*/
+            /** @var Position $location */
             $location = Location::get($session->ip_address);
 
             return (object) [

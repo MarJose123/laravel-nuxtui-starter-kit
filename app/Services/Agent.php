@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use Override;
 use Closure;
 use Detection\Cache\CacheException;
 use Detection\Exception\MobileDetectException;
 use Detection\MobileDetect;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use Override;
 
 /**
  * @copyright Originally created by Jens Segers: https://github.com/jenssegers/agent
@@ -253,7 +253,7 @@ class Agent extends MobileDetect
         return $this->overrideUAAndHeaders(
             $userAgent,
             $httpHeaders,
-            function (?string $userAgent) use ($httpHeaders) {
+            function (?string $userAgent) {
                 // Check specifically for cloudfront headers if the useragent === 'Amazon CloudFront'
                 if (
                     $userAgent === static::$cloudFrontUA
@@ -447,7 +447,7 @@ class Agent extends MobileDetect
 
         foreach ($all as $rules) {
             foreach ($rules as $key => $value) {
-                if (!array_key_exists($key, $merged)) {
+                if (! array_key_exists($key, $merged)) {
                     $merged[$key] = $value;
                 } elseif (is_array($merged[$key])) {
                     $merged[$key][] = $value;
