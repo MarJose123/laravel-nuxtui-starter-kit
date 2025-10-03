@@ -75,6 +75,14 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
+        "setup": [
+            "composer install",
+            "@php -r \"! file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently \"composer mailpit\" \"php artisan queue:listen --tries=1\" \"php artisan schedule:work\" \"npm run dev\" --names=mailserver,queue,scheduler,vite --kill-others  -c auto"
@@ -120,6 +128,7 @@
         ]
     },
     "scripts-descriptions": {
+        "setup": "Setup the project by installing all the dependencies and running the db migrations",
         "dev": "Run the development server",
         "dev:ssr": "Run the development server with SSR",
         "test": "Run the tests",
