@@ -169,6 +169,9 @@ return [
             'clientKey' => 'curl',
         ],
 
+        /** Whether to persist the authentication state */
+        'persistAuth' => true,
+
         /** Custom CSS to be added to the page */
         // 'customCss' => '',
 
