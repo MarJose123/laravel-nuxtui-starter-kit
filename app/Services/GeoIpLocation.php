@@ -20,7 +20,7 @@ class GeoIpLocation extends Driver
     #[Override]
     public function get(Request $request): Position|false
     {
-        return Cache::remember('geoip-'.md5($request->getIp()), now()->addMonth(), function () use ($request) {
+        return Cache::flexible(key: 'geoip-'.md5($request->getIp()), ttl: [15, 25], callback: function () use ($request) {
             $data = $this->process($request);
 
             $position = $this->makePosition();
