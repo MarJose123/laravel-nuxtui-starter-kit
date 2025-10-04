@@ -1,5 +1,7 @@
 <?php
 
+use App\Exceptions\ApiException;
+use App\Http\Middleware\Api\ForceJsonResponseMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Services\InertiaNotification;
@@ -10,24 +12,41 @@ use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Request as RequestAlias;
 use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/health',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->encryptCookies(except: ['appearance']);
+        $middleware->encryptCookies(except: ['theme']);
+
+        $middleware->trustProxies(
+            at: '*',
+            headers: RequestAlias::HEADER_X_FORWARDED_FOR
+        );
 
         $middleware->web(append: [
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        $middleware->api(prepend: [
+            ForceJsonResponseMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
+        $exceptions->renderable(function (Throwable $throwable, Request $request) {
+            if ($request->is('api/*') && $request->wantsJson()) {
+                return app(ApiException::class)->renderApiException($throwable);
+            }
+        });
 
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
             if (! $request->wantsJson()) {
