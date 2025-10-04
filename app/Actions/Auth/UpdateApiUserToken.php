@@ -12,28 +12,26 @@ use Illuminate\Validation\ValidationException;
 class UpdateApiUserToken
 {
     /**
-     * @param Request $request  Authenticated request
-     * @param string  $refresh  Refresh token
-     * @param bool    $remember
+     * @param Request $request Authenticated request
      *
      * @return Fluent {'token': string, 'refresh': string, 'expires_at': int, 'expires_in': int}
      */
-    public function handle(Request $request, string $refresh, bool $remember = false): Fluent
+    public function handle(Request $request): Fluent
     {
 
         /** @var PersonalAccessToken $sanctum */
-        $sanctum = PersonalAccessToken::where('refresh_token', $refresh)
-            ->where('tokenable_id', $request->user()->id);
+        $sanctum = PersonalAccessToken::where('refresh_token', $request->refresh_token)
+            ->where('tokenable_id', $request->user()->id)->first();
 
         if (! $sanctum->exists()) {
             throw ValidationException::withMessages([
-                'refresh' => 'Invalid refresh token',
+                'refresh_token' => 'Invalid refresh token',
             ]);
         }
 
         $freshToken = Str::random(32);
         $plainTextToken = $request->user()->generateTokenString();
-        $expiresAt = $remember ? now()->addDay() : now()->addHour();
+        $expiresAt = $request->boolean('remember') ? now()->addDay() : now()->addHour();
 
         $sanctum->refresh_token = $freshToken;
         $sanctum->token = hash('sha256', $plainTextToken);
