@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\ApiException;
 use App\Http\Middleware\Api\ForceJsonResponseMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -40,6 +41,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
+        $exceptions->renderable(function (Throwable $throwable, Request $request) {
+            if ($request->is('api/*') && $request->wantsJson()) {
+                return app(ApiException::class)->renderApiException($throwable);
+            }
+        });
 
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
             if (! $request->wantsJson()) {
