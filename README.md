@@ -40,7 +40,8 @@ This starter kit is designed to jumpstart your Laravel development with a carefu
 - 📱 **Responsive Design** - Mobile-first approach with TailwindCSS
 - ⚡ **SPA Experience** - Seamless navigation with Inertia.js
 - 🔔 **Notifications** - Integrated notification system
-
+-  **API Documentation** - Ready-to-use API documentation `docs/api`
+- **More to come...**
 
 ## 🚀 Installation
 
