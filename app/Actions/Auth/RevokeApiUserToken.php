@@ -4,7 +4,7 @@ namespace App\Actions\Auth;
 
 use Illuminate\Http\Request;
 
-class DeleteApiUserToken
+class RevokeApiUserToken
 {
     /**
      * Delete user token
