@@ -16,7 +16,7 @@ return new class extends Migration
             $table->morphs('tokenable');
             $table->text('name');
             $table->string('token', 64)->unique();
-            $table->string('refresh_token', 64)->unique();
+            $table->string('refresh_token', 64)->nullable()->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
             $table->timestamp('expires_at')->nullable()->index();
