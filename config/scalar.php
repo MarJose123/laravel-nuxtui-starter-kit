@@ -24,7 +24,7 @@ return [
     | affect the paths of its internal API that aren't exposed to users.
     |
     */
-    'path' => '/scalar',
+    'path' => '/docs/api',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     | Scalar Galaxy package. You can change this to use a custom OpenAPI file.
     |
     */
-    'url' => '/docs/v1/openapi.json',
+    'url' => '/docs/openapi.json',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,9 +78,9 @@ return [
         // 'alternate',
         // 'bluePlanet',
         // 'deepSpace',
-        // 'default',
+         'default',
         // 'kepler',
-        'laravel',
+        // 'laravel',
         // 'mars',
         // 'moon',
         // 'purple',
@@ -128,7 +128,7 @@ return [
         'hideSearch' => false,
 
         /** Whether dark mode is on or off initially (light mode) */
-        'darkMode' => true,
+        'darkMode' => false,
 
         /** forceDarkModeState makes it always this state no matter what*/
         //        'forceDarkModeState' => 'dark',
@@ -138,6 +138,9 @@ return [
 
         /** Key used with CTRL/CMD to open the search modal (defaults to 'k' e.g. CMD+k) */
         'searchHotKey' => 'k',
+
+        /** Whether to expand all responses by default */
+        'expandAllResponses' => false,
 
         /**
          * If used, passed data will be added to the HTML header
