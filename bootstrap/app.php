@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Api\ForceJsonResponseMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Services\InertiaNotification;
@@ -32,6 +33,10 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
+        $middleware->api(prepend: [
+            ForceJsonResponseMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
