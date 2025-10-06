@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Actions\Auth\RevokeApiUserToken;
 use App\Actions\Sessions\DeleteUserSessions;
 use App\Actions\Sessions\RetrieveApiUserSession;
 use App\Actions\Sessions\RetrieveWebUserSession;
@@ -21,7 +22,8 @@ class SessionController extends Controller
         public readonly StatefulGuard $guard,
         private readonly DeleteUserSessions $deleteUserSessions,
         private readonly RetrieveWebUserSession $retrieveWebUserSession,
-        private readonly RetrieveApiUserSession $retrieveApiUserSession
+        private readonly RetrieveApiUserSession $retrieveApiUserSession,
+        private readonly RevokeApiUserToken $revokeApiUserToken,
     ) {}
 
     public function edit(Request $request): Response
@@ -53,7 +55,9 @@ class SessionController extends Controller
             ]);
         }
 
-        $this->deleteUserSessions->handle($request, $this->guard);
+        $request->boolean('api') ?
+            $this->revokeApiUserToken->handle($request) :
+            $this->deleteUserSessions->handle($request, $this->guard);
 
         return back();
 
