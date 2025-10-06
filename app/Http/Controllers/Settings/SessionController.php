@@ -7,6 +7,7 @@ use App\Actions\Sessions\DeleteUserSessions;
 use App\Actions\Sessions\RetrieveApiUserSession;
 use App\Actions\Sessions\RetrieveWebUserSession;
 use App\Http\Controllers\Controller;
+use App\Services\InertiaNotification;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
@@ -39,6 +40,7 @@ class SessionController extends Controller
      *
      * @param Request $request
      *
+     * @throws \Exception
      * @throws AuthenticationException
      *
      * @return RedirectResponse
@@ -58,6 +60,12 @@ class SessionController extends Controller
         $request->boolean('api') ?
             $this->revokeApiUserToken->handle($request) :
             $this->deleteUserSessions->handle($request, $this->guard);
+
+        InertiaNotification::make()
+            ->success()
+            ->title('Sessions revoked')
+            ->message('The sessions have been revoked.')
+            ->send();
 
         return back();
 
