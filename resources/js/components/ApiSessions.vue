@@ -14,6 +14,18 @@ const form = useForm<{ password: string; api: boolean; token: number[] }>({
 })
 const showSessionsRevokeModal = ref(false)
 
+const onSubmitRevokeApiSessions = (token: number) => {
+    form.token.push(token)
+
+    form.delete(route('settings.sessions.destroy'), {
+        onSuccess: () => {
+            showSessionsRevokeModal.value = false
+            form.resetAndClearErrors()
+        },
+        onError: () => form.reset(),
+    })
+}
+
 const onSubmitRevokeAllApiSessions = () => {
     props.apiSessions.forEach((session: ApiSession) => {
         form.token.push(session.id)
