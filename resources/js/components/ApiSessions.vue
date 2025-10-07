@@ -3,14 +3,29 @@ import { ApiSession } from '@/types/apiSession'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
     apiSessions: ApiSession[]
 }>()
 
-const form = useForm({
+const form = useForm<{ password: string; api: boolean; token: number[] }>({
     password: '',
+    api: true,
+    token: [],
 })
 const showSessionsRevokeModal = ref(false)
+
+const onSubmitRevokeAllApiSessions = () => {
+    props.apiSessions.forEach((session: ApiSession) => {
+        form.token.push(session.id)
+    })
+    form.delete(route('settings.sessions.destroy'), {
+        onSuccess: () => {
+            showSessionsRevokeModal.value = false
+            form.resetAndClearErrors()
+        },
+        onError: () => form.reset(),
+    })
+}
 </script>
 
 <template>
@@ -30,10 +45,10 @@ const showSessionsRevokeModal = ref(false)
                     <UModal v-model:open="showSessionsRevokeModal" :ui="{ footer: 'justify-end' }">
                         <UButton class="ml-auto flex" color="error" size="sm" variant="subtle" label="Revoke All" />
 
-                        <template #title>Log Out Other Browser Sessions</template>
+                        <template #title>Log Out Other API Sessions</template>
                         <template #description>
-                            Please enter your password to confirm you would like to log out of your other browser
-                            sessions across all of your devices.
+                            Please enter your password to confirm you would like to log out of your other API sessions
+                            across all of your devices.
                         </template>
                         <template #body>
                             <USimplePasswordInput
@@ -52,7 +67,7 @@ const showSessionsRevokeModal = ref(false)
                                 label="Revoke All"
                                 color="error"
                                 variant="solid"
-                                @click.prevent="onSubmitRevokeWebSessions"
+                                @click.prevent="onSubmitRevokeAllApiSessions"
                             />
                         </template>
                     </UModal>
