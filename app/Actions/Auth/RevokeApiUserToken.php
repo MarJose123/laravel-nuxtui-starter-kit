@@ -16,16 +16,16 @@ class RevokeApiUserToken
     public function handle(Request $request): void
     {
         $request->validate([
-            'token'   => ['required', 'string'],
-            'token.*' => ['required', 'string', 'exists:personal_access_tokens,id'],
+            'token'   => ['required', 'integer'],
+            'token.*' => ['required', 'integer', 'exists:personal_access_tokens,id'],
         ]);
         $token = $request->token;
 
         // sanitize token ids, and don't allow the current user token to delete itself
-        if (is_array($token) && in_array($request->user()->currentAccessToken()->id, $token)) {
-            unset($token[$request->user()->currentAccessToken()->id]);
+        if (is_array($token) && in_array($request->user()->currentAccessToken()?->id, $token)) {
+            unset($token[$request->user()->currentAccessToken()?->id]);
         } else {
-            if ($token === $request->user()->currentAccessToken()->id) {
+            if ($token === $request->user()?->currentAccessToken()?->id) {
                 return;
             }
         }
