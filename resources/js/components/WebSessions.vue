@@ -38,7 +38,7 @@ const onSubmitRevokeWebSessions = () => {
 
         <!--  START:  Main content Section       -->
         <UCard as="div" variant="subtle" class="flex w-6/12 flex-col">
-            <template #header>
+            <template #header v-if="webSessions.length > 1">
                 <div class="flex w-full flex-row">
                     <UModal v-model:open="showSessionsRevokeModal" :ui="{ footer: 'justify-end' }">
                         <UButton class="ml-auto flex" color="error" size="sm" variant="subtle" label="Revoke All" />

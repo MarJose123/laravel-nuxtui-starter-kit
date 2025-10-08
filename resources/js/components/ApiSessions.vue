@@ -7,7 +7,7 @@ const props = defineProps<{
     apiSessions: ApiSession[]
 }>()
 
-const form = useForm<{ password: string; api: boolean; token: Array<number> | number | undefined }>({
+const form = useForm<{ password: string; api: boolean; token: number[] | number | undefined }>({
     password: '',
     api: true,
     token: [],
@@ -54,7 +54,6 @@ const modalConfig = computed({
 })
 
 const onSubmitRevokeApiSessions = () => {
-    console.log(sessionTokens.value)
     form.token = sessionTokens.value as number
 
     form.delete(route('settings.sessions.destroy'), {
@@ -67,8 +66,9 @@ const onSubmitRevokeApiSessions = () => {
 }
 
 const onSubmitRevokeAllApiSessions = () => {
+    form.token = []
     props.apiSessions.forEach((session: ApiSession) => {
-        form.token?.push(session.id)
+        ;(form.token as number[]).push(session.id as number)
     })
 
     form.delete(route('settings.sessions.destroy'), {
@@ -92,7 +92,7 @@ const onSubmitRevokeAllApiSessions = () => {
         <!--   END: Header Section        -->
 
         <!--  START:  Form Section       -->
-        <UCard as="div" variant="subtle" class="flex w-6/12 flex-col">
+        <UCard v-if="apiSessions.length > 0" variant="subtle" class="flex w-6/12 flex-col">
             <template #header>
                 <div class="flex w-full flex-row">
                     <UModal v-model:open="showSessionsRevokeModal" :ui="{ footer: 'justify-end' }">
@@ -194,6 +194,13 @@ const onSubmitRevokeAllApiSessions = () => {
                         />
                     </div>
                 </div>
+            </div>
+        </UCard>
+
+        <UCard variant="subtle" class="flex w-6/12 flex-col">
+            <div class="flex flex-col items-center justify-center gap-2">
+                <UIcon name="i-heroicons-signal" class="size-8 text-gray-500" />
+                <span class="text-sm text-pretty text-muted">No API session</span>
             </div>
         </UCard>
         <!--  END:  Form Section       -->
