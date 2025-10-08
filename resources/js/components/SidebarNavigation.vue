@@ -74,7 +74,7 @@ const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
                     label: 'Sessions',
                     icon: 'i-heroicons-signal',
                     description: 'Configuration for user profile',
-                    to: '/docs/composables/define-shortcuts',
+                    to: route('settings.sessions.edit', {}, false),
                     target: '_self',
                 },
             ],

@@ -86,7 +86,7 @@ const handleVerifyAuthenticationCode = () => {
                     code.value = []
                     isOpen.value = false
                 },
-                onError: (error) => {
+                onError: (error: { confirmTwoFactorAuthentication?: { code: string } | undefined }) => {
                     code.value = []
                     codeError.value = error?.confirmTwoFactorAuthentication?.code ?? ''
                 },

@@ -56,6 +56,8 @@
         "new_with_parentheses": false,
         "php_unit_method_casing": {
             "case": "camel_case"
-        }
+        },
+        "no_closing_tag": true,
+        "blank_line_after_namespace": true
     }
 }
