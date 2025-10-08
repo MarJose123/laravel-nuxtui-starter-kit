@@ -7,6 +7,7 @@ const props = defineProps<{
     modelValue: string
     placeholder?: string
     name?: string
+    autofocus?: boolean | undefined
 }>()
 
 const emit = defineEmits<{
@@ -23,6 +24,7 @@ const showPassword = ref(false)
             @input="emit('update:modelValue', $event.target.value)"
             :placeholder="placeholder ?? 'Input your password'"
             :type="showPassword ? 'text' : 'password'"
+            :autofocus="autofocus"
             :ui="{ trailing: 'pe-1' }"
             class="w-full"
         >

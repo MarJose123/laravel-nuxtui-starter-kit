@@ -25,6 +25,7 @@ const fields = reactive([
         label: 'Email',
         placeholder: 'Enter your email',
         required: true,
+        autofocus: true,
         error: false as boolean | string,
     },
     {
