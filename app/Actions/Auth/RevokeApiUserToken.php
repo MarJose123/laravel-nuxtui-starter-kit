@@ -16,8 +16,8 @@ class RevokeApiUserToken
     public function handle(Request $request): void
     {
         $request->validate([
-            'token'   => ['required', 'integer'],
-            'token.*' => ['required', 'integer', 'exists:personal_access_tokens,id'],
+            'token'   => is_array($request->token) ? ['required', 'array'] : ['required', 'integer'],
+            'token.*' => ['required', 'integer'],
         ]);
         $token = $request->token;
 
