@@ -108,15 +108,17 @@ const onSubmitRevokeAllApiSessions = () => {
                         <template #title>{{ modalConfig.title }}</template>
                         <template #description>{{ modalConfig.description }}</template>
                         <template #body>
-                            <USimplePasswordInput
-                                name="password"
-                                label="Password"
-                                v-model="form.password"
-                                :error="form.errors.password"
-                                placeholder="Password"
-                                required
-                                autofocus
-                            />
+                            <UForm @submit.prevent="() => modalConfig.footer.cta.submit()">
+                                <USimplePasswordInput
+                                    name="password"
+                                    label="Password"
+                                    v-model="form.password"
+                                    :error="form.errors.password"
+                                    placeholder="Password"
+                                    required
+                                    autofocus
+                                />
+                            </UForm>
                         </template>
                         <template #footer="{ close }">
                             <UButton
@@ -197,7 +199,7 @@ const onSubmitRevokeAllApiSessions = () => {
             </div>
         </UCard>
 
-        <UCard variant="subtle" class="flex w-6/12 flex-col">
+        <UCard v-else variant="subtle" class="flex w-6/12 flex-col">
             <div class="flex flex-col items-center justify-center gap-2">
                 <UIcon name="i-heroicons-signal" class="size-8 text-gray-500" />
                 <span class="text-sm text-pretty text-muted">No API session</span>
