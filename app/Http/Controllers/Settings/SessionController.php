@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Settings;
 
-use Exception;
 use App\Actions\Auth\RevokeApiUserToken;
 use App\Actions\Sessions\DeleteUserSessions;
 use App\Actions\Sessions\RetrieveApiUserSession;
 use App\Actions\Sessions\RetrieveWebUserSession;
 use App\Http\Controllers\Controller;
 use App\Services\InertiaNotification;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
