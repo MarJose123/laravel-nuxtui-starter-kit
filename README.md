@@ -35,13 +35,17 @@ This starter kit is designed to jumpstart your Laravel development with a carefu
 ## ✨ Features / Functionality
 
 ### Core Features
-- 🔐 **User Authentication** - Ready-to-use user model and authentication
+- 🔐 **User Authentication** - Complete authentication system with Laravel Fortify
+- 🛡️ **Two-Factor Authentication (2FA)—**Integration with recovery codes
+- 🔒 **Password Confirmation** - Secure page protection with password confirmation middleware
+- 🌐 **RESTful API** - Full API authentication with token refresh and management
+- 📱 **Session Management** - Device tracking, location data, and session revocation
 - 🎨 **Appearance Management** - Custom middleware for theme/appearance handling  
 - 📱 **Responsive Design** - Mobile-first approach with TailwindCSS
 - ⚡ **SPA Experience** - Seamless navigation with Inertia.js
 - 🔔 **Notifications** - Integrated notification system
--  **API Documentation** - Ready-to-use API documentation `docs/api`
-- **More to come...**
+- 📚 **API Documentation** - Auto-generated API docs with Scramble
+- 🔍 **Device Detection** - Comprehensive user agent and location tracking
 
 ## 🚀 Installation
 
