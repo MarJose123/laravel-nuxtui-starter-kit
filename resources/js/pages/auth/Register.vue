@@ -48,7 +48,7 @@ const onSubmit = () => {
             <div class="flex flex-col gap-y-6">
                 <UForm class="space-y-5" @submit.prevent="onSubmit">
                     <UFormField label="Name" name="name" :error="form.errors.name" required>
-                        <UInput class="w-full" v-model="form.name" placeholder="Enter your name" />
+                        <UInput class="w-full" v-model="form.name" placeholder="Enter your name" autofocus />
                     </UFormField>
 
                     <UFormField label="Email" name="email" :error="form.errors.email" required>

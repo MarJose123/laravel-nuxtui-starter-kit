@@ -23,7 +23,7 @@ class UpdateApiUserToken
         $sanctum = PersonalAccessToken::where('refresh_token', $request->refresh_token)
             ->where('tokenable_id', $request->user()->id)->first();
 
-        if (! $sanctum->exists()) {
+        if (! $sanctum || ! $sanctum->exists()) {
             throw ValidationException::withMessages([
                 'refresh_token' => 'Invalid refresh token',
             ]);

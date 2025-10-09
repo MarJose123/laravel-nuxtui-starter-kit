@@ -4,7 +4,7 @@
         <UHeader class="border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80">
             <template #title>
                 <div class="flex items-center gap-2">
-                    <UIcon name="i-heroicons-rocket-launch" class="h-8 w-8 text-primary" />
+                    <UIcon name="i-heroicons-rocket-launch" class="h-8 w-8" />
                 </div>
             </template>
 

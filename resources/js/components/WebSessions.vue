@@ -49,15 +49,17 @@ const onSubmitRevokeWebSessions = () => {
                             sessions across all of your devices.
                         </template>
                         <template #body>
-                            <USimplePasswordInput
-                                name="password"
-                                label="Password"
-                                v-model="form.password"
-                                :error="form.errors.password"
-                                placeholder="Password"
-                                required
-                                autofocus
-                            />
+                            <UForm @submit.prevent="onSubmitRevokeWebSessions">
+                                <USimplePasswordInput
+                                    name="password"
+                                    label="Password"
+                                    v-model="form.password"
+                                    :error="form.errors.password"
+                                    placeholder="Password"
+                                    required
+                                    autofocus
+                                />
+                            </UForm>
                         </template>
                         <template #footer="{ close }">
                             <UButton label="Cancel" color="neutral" variant="outline" @click="close" />

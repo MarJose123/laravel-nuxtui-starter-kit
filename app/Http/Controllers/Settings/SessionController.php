@@ -8,16 +8,20 @@ use App\Actions\Sessions\RetrieveApiUserSession;
 use App\Actions\Sessions\RetrieveWebUserSession;
 use App\Http\Controllers\Controller;
 use App\Services\InertiaNotification;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Actions\ConfirmPassword;
+use Laravel\Fortify\Features;
 
-class SessionController extends Controller
+class SessionController extends Controller implements HasMiddleware
 {
     public function __construct(
         public readonly StatefulGuard $guard,
@@ -26,6 +30,13 @@ class SessionController extends Controller
         private readonly RetrieveApiUserSession $retrieveApiUserSession,
         private readonly RevokeApiUserToken $revokeApiUserToken,
     ) {}
+
+    public static function middleware()
+    {
+        return Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword')
+            ? [new Middleware('password.confirm', only: ['edit'])]
+            : [];
+    }
 
     public function edit(Request $request): Response
     {
@@ -40,7 +51,7 @@ class SessionController extends Controller
      *
      * @param Request $request
      *
-     * @throws \Exception
+     * @throws Exception
      * @throws AuthenticationException
      *
      * @return RedirectResponse
