@@ -2,6 +2,7 @@
 import AppLayout from '@/components/AppLayout.vue'
 import HeadingSmall from '@/components/HeadingSmall.vue'
 import { useAppearance } from '@/composables/useAppearance'
+import { useColorUi } from '@/composables/useColorUi'
 import Layout from '@/layouts/default.vue'
 import { Head, router } from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
@@ -23,6 +24,7 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
 ])
 
 const { appearance, updateAppearance } = useAppearance()
+const { primaryColor, neutralColor, updateUi } = useColorUi()
 const appConfig = useAppConfig()
 
 const appearanceConfig = ref({
@@ -49,7 +51,7 @@ const primary = computed({
         return appConfig.ui.colors.primary
     },
     set(option) {
-        appConfig.ui.colors.primary = option
+        updateUi(option, neutralColor.value)
         appearanceConfig.value.primary = option
     },
 })
@@ -59,7 +61,7 @@ const neutral = computed({
         return appConfig.ui.colors.neutral
     },
     set(option) {
-        appConfig.ui.colors.neutral = option
+        updateUi(primaryColor.value, option)
         appearanceConfig.value.neutral = option
     },
 })

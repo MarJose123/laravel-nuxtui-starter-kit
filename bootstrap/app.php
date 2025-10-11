@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/health',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->encryptCookies(except: ['theme']);
+        $middleware->encryptCookies(except: ['appearance', 'primary-color', 'neutral-color']);
 
         $middleware->trustProxies(
             at: '*',

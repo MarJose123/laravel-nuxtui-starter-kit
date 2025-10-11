@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAppearance } from '@/composables/useAppearance'
+import { useColorUi } from '@/composables/useColorUi'
 import { router, usePage } from '@inertiajs/vue3'
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { computed, ref, watch } from 'vue'
@@ -7,7 +8,7 @@ import { computed, ref, watch } from 'vue'
 const page = usePage()
 const user = ref(page.props.auth.user)
 const { updateAppearance } = useAppearance()
-const appConfig = useAppConfig()
+const { updateUi } = useColorUi()
 
 const settingNavOpen = ref(false)
 
@@ -19,8 +20,7 @@ const handleLogout = () => {
             onSuccess: () => {
                 updateAppearance('system')
                 // reset app ui colors
-                appConfig.ui.colors.primary = 'green'
-                appConfig.ui.colors.neutral = 'slate'
+                updateUi('green', 'slate')
                 // flush
                 router.flushAll()
             },
