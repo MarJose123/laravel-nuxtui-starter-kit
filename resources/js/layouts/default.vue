@@ -3,7 +3,7 @@
 <template>
     <UApp>
         <UMain>
-            <UDashboardGroup as="div" storage="local" storage-key="dashboard" :persistent="false">
+            <UDashboardGroup as="div" storage="local" storage-key="dashboard" :persistent="true">
                 <SidebarNavigation />
                 <slot />
             </UDashboardGroup>
