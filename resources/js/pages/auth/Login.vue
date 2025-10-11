@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAppearance } from '@/composables/useAppearance'
+import { NeutralColor, useColorUi } from '@/composables/useColorUi'
 import Layout from '@/layouts/auth.vue'
 import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
@@ -16,7 +17,7 @@ const props = defineProps<{
 
 const toast = useToast()
 const { updateAppearance } = useAppearance()
-const appConfig = useAppConfig()
+const { primaryColor, neutralColor, updateUi } = useColorUi()
 
 const fields = reactive([
     {
@@ -54,8 +55,10 @@ function onSubmit(payload: FormSubmitEvent<any>) {
         onSuccess: (response) => {
             updateAppearance(response.props.theme.mode)
             // update the app ui color based on the user preference
-            appConfig.ui.colors.primary = response.props.theme.primary ?? 'green'
-            appConfig.ui.colors.neutral = response.props.theme.neutral ?? 'slate'
+            updateUi(
+                response.props.theme.primary ?? primaryColor,
+                (response.props.theme.neutral as NeutralColor) ?? neutralColor,
+            )
         },
         onError: (errors) => {
             for (const errorsKey in errors) {

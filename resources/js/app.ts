@@ -1,5 +1,6 @@
 import '../css/app.css'
 
+import { initializeUiColor } from '@/composables/useColorUi'
 import { createInertiaApp } from '@inertiajs/vue3'
 import ui from '@nuxt/ui/vue-plugin'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
@@ -25,3 +26,5 @@ createInertiaApp({
 })
 // This will set light / dark mode on page load...
 initializeTheme()
+// This will set the UI Color
+initializeUiColor()
