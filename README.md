@@ -7,6 +7,10 @@ A modern, feature-rich starter kit for Laravel applications that combines the po
 
 This starter kit is designed to jumpstart your Laravel development with a carefully curated selection of tools and packages. It includes modern frontend technologies, comprehensive testing setup, code quality tools, and development utilities to help you build maintainable and scalable applications.
 
+## Screenshots
+Explore the screenshots of the starter kit by navigating to the [Screenshots](https://github.com/marjose123/starter-kit/.art/screenshots) folder.
+
+
 ## 🛠️ Tech Stack
 
 ### Backend
