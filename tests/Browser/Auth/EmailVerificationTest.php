@@ -9,7 +9,7 @@ use function Pest\Laravel\actingAs;
 
 pest()->group('browser');
 
-test('email verification screen can be rendered', function () {
+test('email verification screen can be rendered', function (): void {
     $user = User::factory()->unverified()->create();
 
     actingAs($user);
@@ -21,7 +21,7 @@ test('email verification screen can be rendered', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('email can be verified', function () {
+test('email can be verified', function (): void {
     $user = User::factory()->unverified()->create();
 
     actingAs($user);
@@ -44,7 +44,7 @@ test('email can be verified', function () {
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
 });
 
-test('email is not verified with invalid hash', function () {
+test('email is not verified with invalid hash', function (): void {
     $user = User::factory()->unverified()->create();
 
     actingAs($user);
@@ -67,7 +67,7 @@ test('email is not verified with invalid hash', function () {
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
 });
 
-test('email is not verified with invalid user id', function () {
+test('email is not verified with invalid user id', function (): void {
     $user = User::factory()->unverified()->create();
 
     actingAs($user);
@@ -90,7 +90,7 @@ test('email is not verified with invalid user id', function () {
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
 });
 
-test('verified user is redirected to dashboard from verification prompt', function () {
+test('verified user is redirected to dashboard from verification prompt', function (): void {
     $user = User::factory()->create([
         'email_verified_at' => now(),
     ]);
@@ -107,7 +107,7 @@ test('verified user is redirected to dashboard from verification prompt', functi
     Event::assertNotDispatched(Verified::class);
 });
 
-test('already verified user visiting verification link is redirected without firing event again', function () {
+test('already verified user visiting verification link is redirected without firing event again', function (): void {
     $user = User::factory()->create([
         'email_verified_at' => now(),
     ]);

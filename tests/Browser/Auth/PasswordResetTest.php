@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Password;
 
 pest()->group('browser');
 
-test('reset password link screen can be rendered', function () {
+test('reset password link screen can be rendered', function (): void {
     visit(route('password.request'))
         ->assertSee('Forgot password')
         ->assertSee('Enter your email to receive a password reset link')
@@ -15,7 +15,7 @@ test('reset password link screen can be rendered', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('test reset password link can be requested', function () {
+test('test reset password link can be requested', function (): void {
     $user = User::factory()->create();
 
     Notification::fake();
@@ -31,7 +31,7 @@ test('test reset password link can be requested', function () {
     Notification::assertSentTo($user, ResetPassword::class);
 });
 
-test('reset password screen can be rendered', function () {
+test('reset password screen can be rendered', function (): void {
     $user = User::factory()->create();
 
     Notification::fake();
@@ -47,7 +47,7 @@ test('reset password screen can be rendered', function () {
     });
 });
 
-test('password can be reset with valid token', function () {
+test('password can be reset with valid token', function (): void {
     $user = User::factory()->create();
 
     Notification::fake();

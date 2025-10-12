@@ -7,7 +7,7 @@ use function Pest\Laravel\actingAs;
 
 pest()->group('browser');
 
-test('confirm password screen can be rendered', function () {
+test('confirm password screen can be rendered', function (): void {
     actingAs(User::factory()->create());
 
     visit(route('password.confirm'))
@@ -17,7 +17,7 @@ test('confirm password screen can be rendered', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('password can be confirmed', function () {
+test('password can be confirmed', function (): void {
     actingAs(User::factory()->create());
 
     visit(route('password.confirm'))
@@ -28,7 +28,7 @@ test('password can be confirmed', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('password is not confirmed with invalid password', function () {
+test('password is not confirmed with invalid password', function (): void {
     actingAs(User::factory()->create());
 
     visit(route('password.confirm'))

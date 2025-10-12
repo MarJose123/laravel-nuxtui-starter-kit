@@ -6,7 +6,7 @@ use function Pest\Laravel\actingAs;
 
 pest()->group('browser');
 
-test('guests are redirected to the login page', function () {
+test('guests are redirected to the login page', function (): void {
     visit(route('dashboard'))
         ->assertUrlIs(route('login'))
         ->assertNoConsoleLogs()
@@ -15,7 +15,7 @@ test('guests are redirected to the login page', function () {
         ->assertSee('Enter your credentials to access your account.');
 });
 
-test('authenticated users can visit the dashboard', function () {
+test('authenticated users can visit the dashboard', function (): void {
     actingAs(User::factory()->create());
 
     visit(route('dashboard'))

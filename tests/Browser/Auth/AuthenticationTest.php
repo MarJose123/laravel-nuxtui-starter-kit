@@ -9,7 +9,7 @@ use function Pest\Laravel\assertGuest;
 
 pest()->group('browser');
 
-test('login screen can be rendered', function () {
+test('login screen can be rendered', function (): void {
     visit(route('login'))
         ->assertNoConsoleLogs()
         ->assertNoJavaScriptErrors()
@@ -17,7 +17,7 @@ test('login screen can be rendered', function () {
         ->assertSee('Enter your credentials to access your account.');
 });
 
-test('users can authenticate using the login screen', function () {
+test('users can authenticate using the login screen', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     visit(route('login'))
@@ -31,7 +31,7 @@ test('users can authenticate using the login screen', function () {
     assertAuthenticated();
 });
 
-test('users can not authenticate with invalid password', function () {
+test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
 
     visit(route('login'))
@@ -46,7 +46,7 @@ test('users can not authenticate with invalid password', function () {
     assertGuest();
 });
 
-test('users can logout', function () {
+test('users can logout', function (): void {
     $user = User::factory()->create();
 
     actingAs($user);
@@ -60,7 +60,7 @@ test('users can logout', function () {
     assertGuest();
 });
 
-test('users are rate limited', function () {
+test('users are rate limited', function (): void {
     $user = User::factory()->create();
 
     RateLimiter::increment(implode('|', [$user->email, '127.0.0.1']), amount: 10);

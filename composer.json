@@ -125,22 +125,22 @@
             "vendor/bin/phpstan analyse --memory-limit=2G --ansi"
         ],
         "playwright:install": [
+            "echo Installing Playwright.",
             "npm install playwright@latest",
             "npx playwright install"
         ],
         "playwright:cleanup": [
+            "echo Cleaning up Playwright.",
             "npx playwright uninstall --all"
         ],
 
         "test:browser": [
             "Composer\\Config::disableProcessTimeout",
-            "@playwright:install",
-            "php artisan test --testsuite=Browser --parallel",
-            "@playwright:cleanup"
+            "php artisan test --testsuite=Browser --bail"
         ],
 
         "test:features": [
-            "php artisan test --testsuite=Feature"
+            "php artisan test --testsuite=Feature --bail"
         ],
 
         "test": [
