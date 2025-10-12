@@ -133,13 +133,14 @@
         ],
 
         "test:browser": [
+            "Composer\\Config::disableProcessTimeout",
             "@playwright:install",
-            "@php artisan test --group browser --ansi --parallel",
+            "php artisan test --testsuite=Browser --parallel",
             "@playwright:cleanup"
         ],
 
         "test:features": [
-            "@php artisan test --group features --ansi --parallel"
+            "php artisan test --testsuite=Feature"
         ],
 
         "test": [
