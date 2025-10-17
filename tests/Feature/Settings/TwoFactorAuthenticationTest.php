@@ -29,8 +29,7 @@ test('it can render two factor page', function () {
 });
 
 test('it requires password confirmation if enabled, when visiting the two factor page', function () {
-    if (! Features::canManageTwoFactorAuthentication()) {
-        $this->markTestSkipped('Two-factor authentication is not enabled.');
+    if (! Features::canManageTwoFactorAuthentication()) {$this->markTestSkipped('Two-factor authentication is not enabled.');
     }
 
     $user = User::factory()->create();
