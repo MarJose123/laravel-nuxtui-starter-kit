@@ -30,7 +30,7 @@ jobs:
           coverage: none
 
       - name: Install composer dependencies
-        uses: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --error-format=github
