@@ -119,6 +119,7 @@ watch(
                             v-bind="_mode"
                             @click="theme = _mode.label"
                             :selected="theme === _mode.label"
+                            :data-test="`theme-${_mode.label}`"
                         />
                     </div>
                 </UFormField>
@@ -132,6 +133,7 @@ watch(
                             :chip="color"
                             :selected="primary === color"
                             @click="primary = color"
+                            :data-test="`primary-color-${color.toLowerCase()}`"
                         />
                     </div>
                 </UFormField>
@@ -145,6 +147,7 @@ watch(
                             :chip="color === 'neutral' ? 'old-neutral' : color"
                             :selected="neutral === color"
                             @click="neutral = color"
+                            :data-test="`secondary-color-${color.toLowerCase()}`"
                         />
                     </div>
                 </UFormField>

@@ -24,7 +24,7 @@ const onSubmit = () => {
                 <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
             </div>
             <UModal :close="false" :ui="{ footer: 'justify-end' }" @update:open="() => form.resetAndClearErrors()">
-                <UButton color="error" variant="solid">Delete account</UButton>
+                <UButton color="error" variant="solid" data-test="delete-account">Delete account</UButton>
 
                 <template #title> Are you sure you want to delete your account? </template>
 
@@ -67,7 +67,13 @@ const onSubmit = () => {
 
                 <template #footer="{ close }">
                     <UButton label="Cancel" color="neutral" variant="outline" @click="close" />
-                    <UButton label="Delete account" color="error" variant="solid" @click.prevent="onSubmit" />
+                    <UButton
+                        label="Delete account"
+                        color="error"
+                        variant="solid"
+                        @click.prevent="onSubmit"
+                        data-test="confirm-delete-user-button"
+                    />
                 </template>
             </UModal>
         </div>

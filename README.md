@@ -40,7 +40,7 @@ Explore the screenshots of the starter kit by navigating to the [Screenshots](ht
 
 ### Core Features
 - 🔐 **User Authentication** - Complete authentication system with Laravel Fortify
-- 🛡️ **Two-Factor Authentication (2FA)—**Integration with recovery codes
+- 🛡️ **Two-Factor Authentication (2FA)** - Integration with recovery codes
 - 🔒 **Password Confirmation** - Secure page protection with password confirmation middleware
 - 🌐 **RESTful API** - Full API authentication with token refresh and management
 - 📱 **Session Management** - Device tracking, location data, and session revocation
