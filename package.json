@@ -34,7 +34,7 @@
         "@vueuse/core": "^13.9.0",
         "axios": "^1.11.0",
         "lodash": "^4.17.21",
-        "playwright": "^1.56.0",
+        "playwright": "^1.56.1",
         "tailwindcss": "^4.0.0",
         "vue": "^3.5.13",
         "ziggy-js": "^2.6.0"
