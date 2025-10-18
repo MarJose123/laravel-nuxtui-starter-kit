@@ -5,6 +5,7 @@ defineProps<{
     chip?: string
     selected?: boolean
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+    dataTest?: string
 }>()
 
 const slots = defineSlots<{
@@ -21,6 +22,7 @@ const slots = defineSlots<{
         :label="label"
         class="rounded-sm text-[11px] capitalize ring-default"
         :class="[selected ? 'bg-elevated' : 'hover:bg-elevated/50']"
+        :data-test="dataTest"
     >
         <template v-if="chip || !!slots.leading" #leading>
             <slot name="leading">
