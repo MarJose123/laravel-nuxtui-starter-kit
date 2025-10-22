@@ -8,6 +8,7 @@ use App\Models\User;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 #[Group(
     name: 'Authentication',
@@ -27,12 +28,19 @@ class LogoutController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         /** @var User $user */
-        $user = $request->user();
+        $user = $request->user('users-api');
 
-        /** @var PersonalAccessToken $currentToken */
-        $currentToken = $user->currentAccessToken();
+        if ($request->hasSession()) {
+            // Revoke access for SPA login
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            Auth::guard('users-api')->logout();
+        } else {
+            /** @var PersonalAccessToken $currentToken */
+            $currentToken = $user->currentAccessToken();
 
-        $currentToken->delete();
+            $currentToken->delete();
+        }
 
         /**
          * Successful logout response

@@ -25,6 +25,6 @@ class CurrentUserController extends Controller
      */
     public function me(Request $request)
     {
-        return new JsonResponse(data: SessionUserResource::make($request->user()));
+        return new JsonResponse(data: SessionUserResource::make($request->user('users-api')));
     }
 }
