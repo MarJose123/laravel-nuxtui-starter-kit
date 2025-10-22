@@ -66,14 +66,14 @@ If you have the Laravel installer globally installed, you can create a new proje
 ```bash
 composer global require laravel/installer
 
-laravel new example-app --using=marjose123/starter-kit
+laravel new example-app --using=marjose123/laravel-nuxtui-starter-kit
 ```
 
 ### Manual Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/marjose123/starter-kit.git
+   git clone https://github.com/marjose123/laravel-nuxtui-starter-kit.git
    cd starter-kit
    ```
 

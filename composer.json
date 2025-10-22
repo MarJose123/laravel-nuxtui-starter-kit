@@ -1,18 +1,20 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "marjose123/starter-kit",
+    "name": "marjose123/laravel-nuxtui-starter-kit",
     "type": "project",
     "description": "The starter kit application for the Laravel framework that utilizes Vue, NuxtUi, TailwindCss, and other Laravel packages.",
     "keywords": [
         "laravel",
         "framework",
         "starter-kit",
-        "nuxtui-laravel"
+        "nuxtui-laravel",
+        "laravel-nuxtui-starter-kit",
+        "laravel nuxt-ui"
     ],
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/marjose123/starter-kit/issues",
-        "source": "https://github.com/marjose123/starter-kit"
+        "issues": "https://github.com/marjose123/laravel-nuxtui-starter-kit/issues",
+        "source": "https://github.com/marjose123/laravel-nuxtui-starter-kit"
     },
     "authors": [
         {
