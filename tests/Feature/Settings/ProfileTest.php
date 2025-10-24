@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('it can render profile page', function () {
+test('it can render profile page', function (): void {
     $user = User::factory()->create();
 
     $this
@@ -14,7 +14,7 @@ test('it can render profile page', function () {
         ->assertOk();
 });
 
-test('it can update profile information', function () {
+test('it can update profile information', function (): void {
     $user = User::factory()->create();
 
     $this
@@ -33,7 +33,7 @@ test('it can update profile information', function () {
     $this->assertNull($user->email_verified_at);
 });
 
-test('it dont update the email and the email verification status when updating the profile name', function () {
+test('it dont update the email and the email verification status when updating the profile name', function (): void {
     $user = User::factory()->create();
 
     $response = $this
@@ -50,7 +50,7 @@ test('it dont update the email and the email verification status when updating t
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 
-test('it can delete their own account', function () {
+test('it can delete their own account', function (): void {
     $user = User::factory()->create();
 
     $response = $this
@@ -67,7 +67,7 @@ test('it can delete their own account', function () {
     $this->assertNull($user->fresh());
 });
 
-test('it requires password confirmation when deleting their own account', function () {
+test('it requires password confirmation when deleting their own account', function (): void {
     $user = User::factory()->create();
 
     $response = $this

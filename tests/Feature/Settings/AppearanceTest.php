@@ -6,26 +6,26 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
-it('can render appearance page', function () {
+it('can render appearance page', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
         ->get(route('settings.appearance.edit'))
-        ->assertInertia(fn (Assert $page) => $page
+        ->assertInertia(fn (Assert $page): Assert => $page
             ->component('settings/Appearance')
         )
         ->assertOk();
 });
 
-test('user will have an default theme and colors', function () {
+test('user will have an default theme and colors', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     $this->actingAs($user)
         ->get(route('settings.appearance.edit'))
-        ->assertInertia(fn (Assert $page) => $page
+        ->assertInertia(fn (Assert $page): Assert => $page
             ->component('settings/Appearance')
-            ->has('theme', fn (Assert $page) => $page
+            ->has('theme', fn (Assert $page): Assert => $page
                 ->where('mode', 'system')
                 ->where('primary', 'green')
                 ->where('neutral', 'slate'))
@@ -33,7 +33,7 @@ test('user will have an default theme and colors', function () {
     $this->assertDatabaseEmpty('appearances');
 });
 
-it('can update the theme to dark', function () {
+it('can update the theme to dark', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     $this->actingAs($user)
@@ -49,7 +49,7 @@ it('can update the theme to dark', function () {
 
 });
 
-it('can update the theme to light', function () {
+it('can update the theme to light', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
     $this->actingAs($user)
         ->patch(route('settings.appearance.store'), [
@@ -63,7 +63,7 @@ it('can update the theme to light', function () {
     ]);
 });
 
-it('can update the primary color of the user UI', function () {
+it('can update the primary color of the user UI', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     $this->actingAs($user)
@@ -80,7 +80,7 @@ it('can update the primary color of the user UI', function () {
     ]);
 });
 
-it('can update the secondary color of the user UI', function () {
+it('can update the secondary color of the user UI', function (): void {
     $user = User::factory()->withoutTwoFactor()->create();
 
     $this->actingAs($user)
@@ -97,7 +97,7 @@ it('can update the secondary color of the user UI', function () {
     ]);
 });
 
-it('requires theme to have value on every patch of the record', function () {
+it('requires theme to have value on every patch of the record', function (): void {
 
     $user = User::factory()->withoutTwoFactor()->create();
 
