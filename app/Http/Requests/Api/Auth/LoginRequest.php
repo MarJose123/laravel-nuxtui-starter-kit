@@ -63,7 +63,7 @@ class LoginRequest extends FormRequest
     {
         return $this->string('email')
             ->lower()
-            ->append('|'.$this->string('api'))
+            ->append('|api')
             ->append('|'.$this->ip())
             ->transliterate()
             ->value();
