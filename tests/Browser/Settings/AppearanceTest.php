@@ -7,12 +7,12 @@ use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
-test('appearance page is displayed', function () {
+test('appearance page is displayed', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->assertSee('Primary Color')
         ->assertSee('Neutral Color')
@@ -20,12 +20,12 @@ test('appearance page is displayed', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('can select theme to light', function () {
+test('can select theme to light', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->click('@theme-light')
         ->assertUrlIs(route('settings.appearance.edit'))
@@ -35,12 +35,12 @@ test('can select theme to light', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('can select theme to dark', function () {
+test('can select theme to dark', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->click('@theme-dark')
         ->assertUrlIs(route('settings.appearance.edit'))
@@ -50,12 +50,12 @@ test('can select theme to dark', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('can select theme to system', function () {
+test('can select theme to system', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->click('@theme-system')
         ->assertUrlIs(route('settings.appearance.edit'))
@@ -65,12 +65,12 @@ test('can select theme to system', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('can select primary color', function () {
+test('can select primary color', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->click('@primary-color-red')
         ->assertUrlIs(route('settings.appearance.edit'))
@@ -80,12 +80,12 @@ test('can select primary color', function () {
         ->assertNoJavaScriptErrors();
 });
 
-test('can select secondary color', function () {
+test('can select secondary color', function (): void {
     actingAs($user = User::factory()->create());
 
     visit(route('settings.appearance.edit'))
         ->assertSee('Appearance settings')
-        ->assertSee('Update your account\'s appearance settings')
+        ->assertSee("Update your account's appearance settings")
         ->assertSee('Theme')
         ->click('@secondary-color-zinc')
         ->assertUrlIs(route('settings.appearance.edit'))

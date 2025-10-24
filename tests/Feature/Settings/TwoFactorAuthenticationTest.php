@@ -7,7 +7,7 @@ use Laravel\Fortify\Features;
 
 uses(RefreshDatabase::class);
 
-test('it can render two factor page', function () {
+test('it can render two factor page', function (): void {
     if (! Features::canManageTwoFactorAuthentication()) {
         $this->markTestSkipped('Two-factor authentication is not enabled.');
     }
@@ -22,13 +22,13 @@ test('it can render two factor page', function () {
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
         ->get(route('settings.two-factor.show'))
-        ->assertInertia(fn (Assert $page) => $page
+        ->assertInertia(fn (Assert $page): Assert => $page
             ->component('settings/TwoFactor')
             ->where('twoFactorEnabled', false)
         );
 });
 
-test('it requires password confirmation if enabled, when visiting the two factor page', function () {
+test('it requires password confirmation if enabled, when visiting the two factor page', function (): void {
     if (! Features::canManageTwoFactorAuthentication()) {
         $this->markTestSkipped('Two-factor authentication is not enabled.');
     }
@@ -45,7 +45,7 @@ test('it requires password confirmation if enabled, when visiting the two factor
         ->assertRedirect(route('password.confirm'));
 });
 
-test('it doesnt require password confirmation if disabled when visiting two factor page ', function () {
+test('it doesnt require password confirmation if disabled when visiting two factor page ', function (): void {
     if (! Features::canManageTwoFactorAuthentication()) {
         $this->markTestSkipped('Two-factor authentication is not enabled.');
     }
@@ -60,7 +60,7 @@ test('it doesnt require password confirmation if disabled when visiting two fact
     $this->actingAs($user)
         ->get(route('settings.two-factor.show'))
         ->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
+        ->assertInertia(fn (Assert $page): Assert => $page
             ->component('settings/TwoFactor')
         );
 });
