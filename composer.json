@@ -145,17 +145,27 @@
             "php artisan test --testsuite=Feature --bail"
         ],
 
+        "test:Api": [
+            "php artisan test --testsuite=Api --bail"
+        ],
+
         "test": [
             "@php artisan config:clear --ansi",
+            "@test:browser",
             "@test:features",
-            "@test:browser"
+            "@test:Api"
         ]
     },
     "scripts-descriptions": {
         "setup": "Setup the project by installing all the dependencies and running the db migrations",
         "dev": "Run the development server",
         "dev:ssr": "Run the development server with SSR",
-        "test": "Run the tests",
+        "playwright:install": "Install Playwright",
+        "playwright:cleanup": "Cleanup Playwright",
+        "test:browser": "Run the browser tests",
+        "test:features": "Run the feature tests",
+        "test:Api": "Run the API tests",
+        "test": "Run the whole suite tests",
         "format:be": "Fixing the Code Style according to PER standards for the backend code",
         "format:fe": "Fixing the Code Style according to PER standards for the frontend code",
         "format": "Fixing the Code Style according to PER standards for both backend and frontend code",

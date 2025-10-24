@@ -8,7 +8,7 @@ Route::prefix('auth')->group(function (): void {
 
     Route::post('/login', [LoginController::class, 'store']);
 
-    Route::middleware('auth:sanctum')->group(function (): void {
+    Route::middleware('auth:users-api')->group(function (): void {
 
         Route::post('/refresh', [RefreshAccessTokenController::class, 'store']);
 

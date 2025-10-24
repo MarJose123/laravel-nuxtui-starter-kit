@@ -27,11 +27,10 @@ class LogoutController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         /** @var User $user */
-        $user = $request->user();
+        $user = $request->user('users-api');
 
         /** @var PersonalAccessToken $currentToken */
         $currentToken = $user->currentAccessToken();
-
         $currentToken->delete();
 
         /**
