@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
+use RectorLaravel\Set\LaravelLevelSetList;
+use RectorLaravel\Set\LaravelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -24,32 +27,14 @@ return RectorConfig::configure()
     // uncomment to reach your current PHP version
     ->withPhpSets(php84: true)
     ->withImportNames()
-    ->withTypeCoverageLevel(10)
-    ->withDeadCodeLevel(10)
-    ->withCodeQualityLevel(10)
-    ->withCodingStyleLevel(10)
     ->withComposerBased(laravel: true)
-    ->withRules([
-        \RectorLaravel\Rector\ClassMethod\AddGenericReturnTypeToRelationsRector::class,
-        \RectorLaravel\Rector\Expr\AppEnvironmentComparisonToParameterRector::class,
-        \RectorLaravel\Rector\MethodCall\ChangeQueryWhereDateValueWithCarbonRector::class,
-        \RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector::class,
-        \RectorLaravel\Rector\PropertyFetch\OptionalToNullsafeOperatorRector::class,
-        \RectorLaravel\Rector\MethodCall\RedirectBackToBackHelperRector::class,
-        \RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector::class,
-        \RectorLaravel\Rector\Class_\RemoveModelPropertyFromFactoriesRector::class,
-        \RectorLaravel\Rector\FuncCall\RemoveRedundantValueCallsRector::class,
-        \RectorLaravel\Rector\PropertyFetch\ReplaceFakerInstanceWithHelperRector::class,
-        \RectorLaravel\Rector\MethodCall\ResponseHelperCallToJsonResponseRector::class,
-        \RectorLaravel\Rector\ClassMethod\ScopeNamedClassMethodToScopeAttributedClassMethodRector::class,
-        \RectorLaravel\Rector\FuncCall\TypeHintTappableCallRector::class,
-        \RectorLaravel\Rector\MethodCall\UnaliasCollectionMethodsRector::class,
-        \RectorLaravel\Rector\MethodCall\UseComponentPropertyWithinCommandsRector::class,
-        \RectorLaravel\Rector\MethodCall\ValidationRuleArrayStringValueToArrayRector::class,
-        \RectorLaravel\Rector\MethodCall\RedirectRouteToToRouteHelperRector::class,
-        \RectorLaravel\Rector\Class_\ModelCastsPropertyToCastsMethodRector::class,
-
-        \Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector::class,
-        \Rector\CodeQuality\Rector\NullsafeMethodCall\CleanupUnneededNullsafeOperatorRector::class,
-        \Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeFromPropertyTypeRector::class,
+    ->withSets([
+        LaravelLevelSetList::UP_TO_LARAVEL_120,
+        LaravelSetList::LARAVEL_CODE_QUALITY,
+        LaravelSetList::LARAVEL_COLLECTION,
+        LaravelSetList::LARAVEL_ELOQUENT_MAGIC_METHOD_TO_QUERY_BUILDER,
+        LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
+        LaravelSetList::LARAVEL_TESTING,
+    ])->withConfiguredRule(RemoveDumpDataDeadCodeRector::class, [
+        'dd', 'dump', 'var_dump', 'ray', 'ray_dump', 'ds',
     ]);
