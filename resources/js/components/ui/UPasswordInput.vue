@@ -37,17 +37,16 @@ const strength = computed(() => checkStrength(props.modelValue))
 const score = computed(() => strength.value.filter((req) => req.met).length)
 
 const color = computed(() => {
-    if (score.value === 0) return 'neutral'
+    if (score.value <= 0) return 'neutral'
     if (score.value <= 1) return 'error'
-    if (score.value <= 2) return 'warning'
-    if (score.value === 3) return 'warning'
+    if (score.value >= 1 && score.value <= 4) return 'warning'
     return 'success'
 })
 
 const text = computed(() => {
     if (score.value === 0) return 'Enter a password'
-    if (score.value <= 2) return 'Weak password'
-    if (score.value <= 3) return 'Medium password'
+    if (score.value >= 1 && score.value <= 2) return 'Weak password'
+    if (score.value >= 3 && score.value <= 4) return 'Medium password'
     return 'Strong password'
 })
 </script>
@@ -86,7 +85,7 @@ const text = computed(() => {
             </UInput>
         </UFormField>
 
-        <UProgress :color="color" :indicator="text" :model-value="score" :max="4" size="sm" />
+        <UProgress :color="color" :indicator="text" :model-value="score" :max="5" size="sm" />
 
         <p id="password-strength" class="text-sm font-medium">{{ text }}. Must contain:</p>
 
