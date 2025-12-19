@@ -5,19 +5,19 @@ import Layout from '@/layouts/auth.vue'
 import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { onMounted, reactive, watch } from 'vue'
+import {onMounted, onUnmounted, reactive, ref, watch} from 'vue'
 
 defineOptions({ layout: Layout })
 
 const props = defineProps<{
     canResetPassword: boolean
     canRegister: boolean
-    notification: Notification | null
 }>()
 
 const toast = useToast()
 const { updateAppearance } = useAppearance()
 const { primaryColor, neutralColor, updateUi } = useColorUi()
+const flashEventListener = ref()
 
 const fields = reactive([
     {
@@ -68,34 +68,22 @@ function onSubmit(payload: FormSubmitEvent<any>) {
     })
 }
 
-watch(
-    () => props.notification,
-    (notification) => {
-        if (notification) {
+onMounted(() => {
+    flashEventListener.value = router.on('flash', (event) => {
+        if (event.detail.flash.notification) {
             toast.add({
-                title:
-                    (notification.title ?? notification.type === 'success') ? 'Success' : 'Opps! Something went wrong',
-                description: notification.message,
-                color: notification.type === 'success' ? 'success' : 'error',
-                icon: notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
-                duration: 5000,
+                title: event.detail.flash.notification?.title,
+                description: event.detail.flash.notification.message,
+                color: event.detail.flash.notification?.color,
+                icon: event.detail.flash.notification?.icon,
             })
         }
-    },
-)
+    })
+})
 
-onMounted(() => {
-    if (props.notification) {
-        toast.add({
-            title:
-                (props.notification.title ?? props.notification.type === 'success')
-                    ? 'Success'
-                    : 'Opps! Something went wrong',
-            description: props.notification.message,
-            color: props.notification.type === 'success' ? 'success' : 'error',
-            icon: props.notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
-            duration: 5000,
-        })
+onUnmounted(() => {
+    if (flashEventListener.value) {
+        flashEventListener.value()
     }
 })
 </script>
