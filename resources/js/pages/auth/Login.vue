@@ -2,10 +2,9 @@
 import { useAppearance } from '@/composables/useAppearance'
 import { NeutralColor, useColorUi } from '@/composables/useColorUi'
 import Layout from '@/layouts/auth.vue'
-import { Notification } from '@/types/notification'
 import { router } from '@inertiajs/vue3'
 import type { FormSubmitEvent } from '@nuxt/ui'
-import {onMounted, onUnmounted, reactive, ref, watch} from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 
 defineOptions({ layout: Layout })
 

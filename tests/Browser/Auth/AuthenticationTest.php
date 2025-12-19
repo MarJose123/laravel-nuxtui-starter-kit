@@ -52,7 +52,8 @@ test('users can logout', function (): void {
     actingAs($user);
 
     visit(route('dashboard'))
-        ->click('#dashboard-sidebar-v-0 > div.shrink-0.flex.items-center.gap-1\.5.px-4.py-2.border-t.border-default > div > button')
+        ->click('#reka-dropdown-menu-trigger-v-3')
+        ->click('.logout')
         ->assertUrlIs(route('home'))
         ->assertNoConsoleLogs()
         ->assertNoJavaScriptErrors();
