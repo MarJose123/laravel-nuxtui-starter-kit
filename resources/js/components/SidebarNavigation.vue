@@ -1,32 +1,7 @@
 <script setup lang="ts">
-import { useAppearance } from '@/composables/useAppearance'
-import { useColorUi } from '@/composables/useColorUi'
-import { router, usePage } from '@inertiajs/vue3'
+import UserMenu from '@/components/UserMenu.vue'
 import type { NavigationMenuItem } from '@nuxt/ui'
-import { computed, ref, watch } from 'vue'
-
-const page = usePage()
-const user = ref(page.props.auth.user)
-const { updateAppearance } = useAppearance()
-const { updateUi } = useColorUi()
-
-const settingNavOpen = ref(false)
-
-const handleLogout = () => {
-    router.post(
-        route('logout'),
-        {},
-        {
-            onSuccess: () => {
-                updateAppearance('system')
-                // reset app ui colors
-                updateUi('green', 'slate')
-                // flush
-                router.flushAll()
-            },
-        },
-    )
-}
+import { computed } from 'vue'
 
 const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
     [
@@ -35,49 +10,6 @@ const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
             icon: 'i-lucide-house',
             to: route('dashboard', {}, false),
             target: '_self',
-        },
-        {
-            label: 'Settings',
-            icon: 'i-lucide-settings',
-            active: settingNavOpen.value,
-            defaultOpen: settingNavOpen.value,
-            children: [
-                {
-                    label: 'Account',
-                    icon: 'i-lucide-user-cog',
-                    description: 'Configuration for user profile',
-                    to: route('settings.account.edit', {}, false),
-                    target: '_self',
-                },
-                {
-                    label: 'Appearance',
-                    icon: 'i-lucide-swatch-book',
-                    description: 'Define preference for your application themes',
-                    to: route('settings.appearance.edit', {}, false),
-                    target: '_self',
-                },
-                {
-                    label: 'Authentication',
-                    icon: 'i-hugeicons-security',
-                    description: 'Secure your password',
-                    to: route('settings.password.edit', {}, false),
-                    target: '_self',
-                },
-                {
-                    label: 'Two Factor Auth (2FA)',
-                    icon: 'i-streamline-plump:padlock-key',
-                    description: 'Secure your account by adding 2FA',
-                    to: route('settings.two-factor.show', {}, false),
-                    target: '_self',
-                },
-                {
-                    label: 'Sessions',
-                    icon: 'i-heroicons-signal',
-                    description: 'Configuration for user profile',
-                    to: route('settings.sessions.edit', {}, false),
-                    target: '_self',
-                },
-            ],
         },
     ],
     [
@@ -95,28 +27,6 @@ const sidebarNavigationItems = computed<NavigationMenuItem[][]>(() => [
         },
     ],
 ])
-
-watch(
-    () => page.props.auth.user,
-    () => {
-        user.value = page.props.auth.user
-    },
-    {
-        immediate: true,
-        deep: true,
-    },
-)
-
-watch(
-    () => page.url,
-    () => {
-        settingNavOpen.value = route().current('settings.*')
-    },
-    {
-        immediate: true,
-        deep: true,
-    },
-)
 </script>
 
 <template>
@@ -158,31 +68,7 @@ watch(
         </template>
 
         <template #footer="{ collapsed }">
-            <div class="group flex w-full flex-row justify-between">
-                <UUser
-                    :name="collapsed ? undefined : user.name"
-                    :description="collapsed ? undefined : user.email"
-                    :avatar="{
-                        src: undefined, // you can replace it with your user avatar
-                        alt: user.name, // fallback image holder if the 'src' is undefined
-                    }"
-                    :class="collapsed ? 'transition-opacity duration-200 group-hover:opacity-0' : ''"
-                />
-                <UTooltip text="Sign Out">
-                    <UButton
-                        icon="i-uil:signout"
-                        size="md"
-                        color="neutral"
-                        variant="link"
-                        @click.prevent="handleLogout"
-                        :class="
-                            collapsed
-                                ? 'absolute opacity-0 transition-opacity duration-200 group-hover:opacity-100'
-                                : ''
-                        "
-                    />
-                </UTooltip>
-            </div>
+            <UserMenu :collapsed="collapsed" />
         </template>
     </UDashboardSidebar>
 </template>
