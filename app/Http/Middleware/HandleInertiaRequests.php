@@ -42,7 +42,6 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name'         => config('app.name'),
-            'notification' => $request->session()->get('notification'),
             'auth'         => [
                 'user' => function () use ($request) {
                     $request->user()?->refresh(); // reload and use the latest data

@@ -5,8 +5,8 @@ namespace App\Actions\Sessions;
 use App\Services\Agent;
 use Composer\InstalledVersions;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 use Laravel\Sanctum\Sanctum;
@@ -34,9 +34,9 @@ class RetrieveApiUserSession
         }
 
         return collect(
-            DB::connection(config('session.connection'))->table(app(Sanctum::personalAccessTokenModel())->getTable())
+            DB::connection(config('session.connection'))->table(resolve(Sanctum::personalAccessTokenModel())->getTable())
                 ->where('tokenable_id', $request->user()->getAuthIdentifier())
-                ->orderBy('last_used_at', 'desc')
+                ->latest('last_used_at')
                 ->get()
         )->map(function ($session) use ($request) {
             $agent = $this->createAgent($session);
@@ -62,7 +62,7 @@ class RetrieveApiUserSession
                 'name'              => $session->name,
                 'ip_address'        => $session->ip_address,
                 'is_current_device' => $session->id === $request->user()?->currentAccessToken()?->id,
-                'last_used'         => $session->last_used_at ? Carbon::parse($session->last_used_at)->diffForHumans() : 'Never',
+                'last_used'         => $session->last_used_at ? Date::parse($session->last_used_at)->diffForHumans() : 'Never',
             ]);
         });
 

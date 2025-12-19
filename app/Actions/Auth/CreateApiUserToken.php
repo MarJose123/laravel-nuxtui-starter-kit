@@ -3,8 +3,8 @@
 namespace App\Actions\Auth;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 
@@ -38,7 +38,7 @@ class CreateApiUserToken
             'token'      => $sanctumToken->plainTextToken,
             'refresh'    => $freshToken,
             'expires_at' => $expiresAt->timestamp,
-            'expires_in' => (int) ceil(Carbon::now()->diffInSeconds($expiresAt)),
+            'expires_in' => (int) ceil(Date::now()->diffInSeconds($expiresAt)),
         ]);
 
     }

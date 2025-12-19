@@ -1,4 +1,5 @@
 import { AppPageProps } from '@/types/index'
+import { Notification } from '@/types/notification'
 import type { route as routeFn } from 'ziggy-js'
 
 declare global {
@@ -19,4 +20,9 @@ declare module 'vite/client' {
 
 declare module '@inertiajs/core' {
     interface PageProps extends InertiaPageProps, AppPageProps {}
+    export interface InertiaConfig {
+        flashDataType: {
+            notification?: Notification
+        }
+    }
 }

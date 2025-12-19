@@ -39,7 +39,7 @@ class LoginController extends Controller
     {
         $request->ensureIsNotRateLimited();
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::query()->where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             RateLimiter::hit($request->throttleKey());

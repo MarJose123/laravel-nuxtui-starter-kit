@@ -1,7 +1,9 @@
-export type NotificationType = 'success' | 'error'
+export type NotificationType = 'success' | 'error' | 'warning' | 'info' | (string & {})
 
 export interface Notification {
     type: NotificationType
-    title: string | null
+    icon: string
+    color: Toast['variants']['color']
+    title?: string
     message: string
 }
