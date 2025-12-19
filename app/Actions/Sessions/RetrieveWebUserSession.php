@@ -4,8 +4,8 @@ namespace App\Actions\Sessions;
 
 use App\Services\Agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Fluent;
 use Stevebauman\Location\Facades\Location;
@@ -58,7 +58,7 @@ class RetrieveWebUserSession
                 ],
                 'ip_address'        => $session->ip_address,
                 'is_current_device' => $session->id === $request->session()->getId(),
-                'last_active'       => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
+                'last_active'       => Date::createFromTimestamp($session->last_activity)->diffForHumans(),
             ]);
         });
 

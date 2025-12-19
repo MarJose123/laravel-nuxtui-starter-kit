@@ -3,8 +3,8 @@
 namespace App\Actions\Auth;
 
 use App\Models\PersonalAccessToken;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -20,7 +20,7 @@ class UpdateApiUserToken
     {
 
         /** @var PersonalAccessToken $sanctum */
-        $sanctum = PersonalAccessToken::where('refresh_token', $request->refresh_token)
+        $sanctum = PersonalAccessToken::query()->where('refresh_token', $request->refresh_token)
             ->where('tokenable_id', $request->user()->id)->first();
 
         if (! $sanctum || ! $sanctum->exists()) {
@@ -42,7 +42,7 @@ class UpdateApiUserToken
             'token'      => $sanctum->getKey().'|'.$plainTextToken,
             'refresh'    => $freshToken,
             'expires_at' => $expiresAt->timestamp,
-            'expires_in' => (int) ceil(Carbon::now()->diffInSeconds($expiresAt)),
+            'expires_in' => (int) ceil(Date::now()->diffInSeconds($expiresAt)),
         ]);
 
     }

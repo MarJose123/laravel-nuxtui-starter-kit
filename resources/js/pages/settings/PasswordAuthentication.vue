@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import USimplePasswordInput from '@/components/ui/USimplePasswordInput.vue'
 import Layout from '@/layouts/default.vue'
-import { Notification } from '@/types/notification'
 import { Head, useForm } from '@inertiajs/vue3'
 import type { BreadcrumbItem } from '@nuxt/ui'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 
 defineOptions({ layout: Layout })
 
@@ -19,52 +18,11 @@ const breadcrumbItems = ref<BreadcrumbItem[]>([
     },
 ])
 
-interface Props {
-    notification: Notification | null
-}
-
-const props = defineProps<Props>()
-const toast = useToast()
-
 const formPassword = useForm({
     password: '',
     password_confirmation: '',
     current_password: '',
 })
-
-onMounted(() => {
-    if (props.notification) {
-        toast.add({
-            title: props.notification?.title
-                ? props.notification?.title
-                : props.notification?.type === 'success'
-                  ? 'Success'
-                  : 'Opps! Something went wrong',
-            description: props.notification.message,
-            color: props.notification?.type === 'success' ? 'success' : 'error',
-            icon: props.notification?.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
-            duration: 5000,
-        })
-    }
-})
-
-watch(
-    () => props.notification,
-    (notification) => {
-        if (notification) {
-            toast.add({
-                title: notification.title
-                    ? notification.title
-                    : notification.type === 'success'
-                      ? 'Success'
-                      : 'Opps! Something went wrong',
-                description: notification.message,
-                color: notification.type === 'success' ? 'success' : 'error',
-                icon: notification.type === 'success' ? 'i-heroicons-check-circle' : 'i-heroicons-x-circle',
-            })
-        }
-    },
-)
 
 const onSubmit = () => {
     formPassword.put(route('settings.password.update'))

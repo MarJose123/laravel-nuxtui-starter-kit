@@ -16,7 +16,7 @@ class CreateUser
     public function handle(array $attributes): User
     {
         return DB::transaction(function () use ($attributes) {
-            $user = User::create([
+            $user = User::query()->create([
                 ...$attributes,
                 'password' => (Hash::make($attributes['password'])),
             ]);
