@@ -30,9 +30,9 @@
         "inertiajs/inertia-laravel": "^2.0",
         "jaybizzle/crawler-detect": "^1.3",
         "laravel/fortify": "^1.30",
-        "laravel/framework": "^12.0",
+        "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10.1",
+        "laravel/tinker": "^3.0",
         "scalar/laravel": "^0.2.0",
         "mobiledetect/mobiledetectlib": "^4.8",
         "stevebauman/location": "^7.6",
@@ -85,15 +85,15 @@
             "@php -r \"! file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "npm install",
-            "npm run build"
+            "bun install",
+            "bun run build"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently \"composer mailpit\" \"php artisan queue:listen --tries=1\" \"php artisan schedule:work\" \"npm run dev\" --names=mailserver,queue,scheduler,vite --kill-others  -c auto"
+            "bunx --bun concurrently \"composer mailpit\" \"php artisan queue:listen --tries=1\" \"php artisan schedule:work\" \"npm run dev\" --names=mailserver,queue,scheduler,vite --kill-others  -c auto"
         ],
         "dev:ssr": [
-            "npm run build:ssr",
+            "bun run build:ssr",
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
         ],
@@ -101,8 +101,8 @@
             "vendor/bin/pint"
         ],
         "format:fe": [
-            "npm run format",
-            "npm run lint"
+            "bun run format",
+            "bun run lint"
         ],
         "format": [
             "@format:be",
@@ -128,12 +128,12 @@
         ],
         "playwright:install": [
             "echo Installing Playwright.",
-            "npm install playwright@latest",
+            "bun install playwright@latest",
             "npx playwright install"
         ],
         "playwright:cleanup": [
             "echo Cleaning up Playwright.",
-            "npx playwright uninstall --all"
+            "bunx --bun playwright uninstall --all"
         ],
 
         "test:browser": [
