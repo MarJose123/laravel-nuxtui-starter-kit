@@ -24,19 +24,22 @@ jobs:
         with:
           php-version: '8.4'
 
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Install Dependencies
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-          npm install
+          bun install
 
       - name: Run Pint
         run: vendor/bin/pint
 
       - name: Format Frontend
-        run: npm run format
+        run: bun run format
 
       - name: Lint Frontend
-        run: npm run lint
+        run: bun run lint
 
       # uncomment this if you want to commit the changes to the repository
       # - name: Commit Changes
