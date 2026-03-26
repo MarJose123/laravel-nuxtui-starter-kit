@@ -33,7 +33,7 @@
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
-        "scalar/laravel": "^0.2.0",
+        "scalar/laravel": "^0.2.1",
         "mobiledetect/mobiledetectlib": "^4.8",
         "stevebauman/location": "^7.6",
         "tightenco/ziggy": "^2.6"
