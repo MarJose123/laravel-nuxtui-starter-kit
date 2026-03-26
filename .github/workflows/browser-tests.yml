@@ -38,7 +38,7 @@ jobs:
         run: bunx --bun playwright install
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --optimize-autoloader
 
       - name: Copy Environment File
         run: cp .env.example .env
