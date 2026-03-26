@@ -25,17 +25,14 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install Node Dependencies
-        run: npm ci
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: bun install
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --optimize-autoloader
 
       - name: Copy Environment File
         run: cp .env.example .env
@@ -44,7 +41,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Build Assets
-        run: npm run build
+        run: bun run build
 
       - name: Tests
         run: php artisan test --testsuite=Api
