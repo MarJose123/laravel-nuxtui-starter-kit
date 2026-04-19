@@ -1,15 +1,15 @@
+import { useHttp } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 
 const fetchJson = async <T>(url: string): Promise<T> => {
-    const response = await fetch(url, {
+    const http = useHttp<Record<string, never>, T>()
+
+    return await http.get(url, {
         headers: { Accept: 'application/json' },
+        onError: (error) => {
+            throw new Error(`Failed to fetch: ${error.status}`)
+        },
     })
-
-    if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status}`)
-    }
-
-    return response.json()
 }
 
 const errors = ref<string[]>([])

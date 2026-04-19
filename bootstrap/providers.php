@@ -1,8 +1,13 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\FortifyServiceProvider;
+use App\Providers\SanctumServiceProvider;
+use App\Providers\ScrambleServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\FortifyServiceProvider::class,
-    App\Providers\SanctumServiceProvider::class,
-    App\Providers\ScrambleServiceProvider::class,
+    AppServiceProvider::class,
+    FortifyServiceProvider::class,
+    SanctumServiceProvider::class,
+    ScrambleServiceProvider::class,
 ];

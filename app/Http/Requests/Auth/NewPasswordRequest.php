@@ -13,12 +13,7 @@ class NewPasswordRequest extends FormRequest
             'token'    => ['required'],
             'email'    => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'confirmed',
-                Password::min(8)
-                    ->letters()
-                    ->numbers()
-                    ->mixedCase() // lower-case and upper-case letter
-                    ->symbols()
-                    ->uncompromised(),
+                Password::default(),
             ],
             'password_confirmation' => ['required'],
         ];
