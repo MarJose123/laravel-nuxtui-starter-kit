@@ -7,6 +7,7 @@ use App\Concerns\AppearancePrimaryColor;
 use App\Concerns\AppearanceSecondaryColor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Override;
 
 class Appearance extends Model
 {
@@ -32,6 +33,7 @@ class Appearance extends Model
         return $this->belongsTo(User::class);
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [
